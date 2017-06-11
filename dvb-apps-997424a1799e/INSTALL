@@ -1,0 +1,21 @@
+Requirements:
+
+For ttusb_dec_reset, you will need libusb.
+
+Building:
+
+Simply type
+$ make
+
+Build options
+  static=1		- Build all applications statically.
+  V=1			- Verbose output during build.
+  ttusb_dec_reset=1	- Build the optional ttusb_dec_reset.
+
+Installing:
+
+$ make install
+installs libraries and utils to /usr/[bin,include,lib]
+
+$ make install prefix=<path>
+installs libraries and utils to <path>/[bin,include,lib]

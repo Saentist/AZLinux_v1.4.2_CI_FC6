@@ -1,0 +1,57 @@
+<Base Information>
+Support cards: 1025/1027/1034/1041/2033/3030
+
+
+
+< Modified Histories >	
+-----------------------------------------------------------------------------------------	
+Version:  v1.4.2
+User:     May
+Date:     2007.3.9
+Complier: GCC 4.1.0
+Kernel:   2.6.18-1.2257
+Items:
+1. Fix the issue that play scramble program must insert CAM after "make insmod".	
+2. Solve the bug that the tuner can't lock on signal after the CAM has been removed and then inserted again. 
+-----------------------------------------------------------------------------------------	
+Version:  v1.4.1
+User:     May
+Date:     2007.2.6
+Complier: GCC 4.1.0
+Kernel:   2.6.18-1.2257
+Items:
+1. Add scan support 
+2. Add Mplayer with channel list support,but it is used to play FTA program by DVB-C and DVB-T cards.	
+3. Add 1041 support
+4. Add dvbs-s2 switch tool
+-----------------------------------------------------------------------------------------	
+Version:  v1.3
+User:     May
+Date:     2007.1.6
+Complier: GCC 4.1.1
+Kernel:   2.6.18-1.2798
+Items:
+1. Modify 1034 set h/v voltage 
+2. Modify mb86a16_read_status	
+-----------------------------------------------------------------------------------------	
+Version:  v1.2
+User:     May
+Date:     2006.12.15
+Complier: GCC 4.1.1
+Kernel:   2.6.18-1.2798
+Items:
+1. Modify 1025 communication error between driver and firmware
+2. Modify linuxdriver/v4l/makefile for compatibility 
+3. Modify linuxdriver/linux/drivers/media/dvb/mantis/makefile 
+-----------------------------------------------------------------------------------------	
+Version:  v1.1
+User:     David
+Date:     2006.11.29
+Complier: GCC 4.0.0
+Kernel:   2.6.12-1.1447
+Items:
+1. Modify CI module for supporting multi-card and smp
+-----------------------------------------------------------------------------------------	
+		
+<know issue>
+1. Lock program is too long.

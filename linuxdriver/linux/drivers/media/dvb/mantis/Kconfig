@@ -1,0 +1,9 @@
+config DVB_MANTIS
+	tristate "MANTIS Support"
+	depends on DVB_CORE && PCI && I2C
+	help
+	  Mantis utility functions for device handling, software fallbacks etc.
+	  Say Y when you have a DVB card and want to use it. Say Y if you want
+	  to build your drivers outside the kernel, but need the DVB core. All
+	  in-kernel drivers will select this automatically if needed.
+	  If unsure say N.

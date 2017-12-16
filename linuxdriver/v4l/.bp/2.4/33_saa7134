@@ -1,0 +1,16 @@
+srcdiff	saa7134.h		drivers/media/video/saa7134.h
+srcdiff	saa7134-reg.h		drivers/media/video/saa7134-reg.h
+
+srcdiff	saa7134-core.c		drivers/media/video/saa7134-core.c
+srcdiff	saa7134-cards.c		drivers/media/video/saa7134-cards.c
+srcdiff	saa7134-i2c.c		drivers/media/video/saa7134-i2c.c
+srcdiff	saa7134-tvaudio.c	drivers/media/video/saa7134-tvaudio.c
+srcdiff	saa7134-video.c		drivers/media/video/saa7134-video.c
+srcdiff	saa7134-vbi.c		drivers/media/video/saa7134-vbi.c
+srcdiff	saa7134-oss.c		drivers/media/video/saa7134-oss.c
+srcdiff	saa7134-ts.c		drivers/media/video/saa7134-ts.c
+srcdiff	saa7134-input.c		drivers/media/video/saa7134-input.c
+
+srcdiff saa6752hs.h		drivers/media/video/saa6752hs.h
+srcdiff saa6752hs.c		drivers/media/video/saa6752hs.c
+

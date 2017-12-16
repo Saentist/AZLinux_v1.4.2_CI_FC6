@@ -1,0 +1,2 @@
+srcdiff	ir-kbd-i2c.c	drivers/media/video/ir-kbd-i2c.c
+srcdiff	ir-kbd-gpio.c	drivers/media/video/ir-kbd-gpio.c

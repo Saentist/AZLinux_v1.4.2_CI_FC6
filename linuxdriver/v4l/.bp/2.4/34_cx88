@@ -1,0 +1,10 @@
+srcdiff cx88.h			drivers/media/video/cx88.h
+srcdiff cx88-reg.h		drivers/media/video/cx88-reg.h
+
+srcdiff cx88-cards.c		drivers/media/video/cx88-cards.c
+srcdiff cx88-core.c		drivers/media/video/cx88-core.c
+srcdiff cx88-i2c.c		drivers/media/video/cx88-i2c.c
+srcdiff cx88-tvaudio.c		drivers/media/video/cx88-tvaudio.c
+srcdiff cx88-video.c		drivers/media/video/cx88-video.c
+srcdiff cx88-vbi.c		drivers/media/video/cx88-vbi.c
+

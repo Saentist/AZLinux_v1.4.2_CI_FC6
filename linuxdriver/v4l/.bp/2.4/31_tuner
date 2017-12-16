@@ -1,0 +1,2 @@
+srcdiff	tuner.h		drivers/media/video/tuner.h
+srcdiff	tuner.c		drivers/media/video/tuner.c

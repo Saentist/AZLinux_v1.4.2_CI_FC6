@@ -1,0 +1,2 @@
+srcdiff	ir-common.h	include/media/ir-common.h
+srcdiff	ir-common.c	drivers/media/common/ir-common.c

@@ -1,0 +1,591 @@
+#
+# Makefile for the kernel multimedia device drivers.
+#
+
+saa7146-objs    := saa7146_i2c.o saa7146_core.o
+saa7146_vv-objs := saa7146_fops.o saa7146_video.o saa7146_hlp.o saa7146_vbi.o
+ir-common-objs  := ir-functions.o ir-keymaps.o
+
+obj-$(CONFIG_VIDEO_SAA7146) += saa7146.o
+obj-$(CONFIG_VIDEO_SAA7146_VV) += saa7146_vv.o
+obj-$(CONFIG_VIDEO_IR) += ir-common.o
+#
+# Makefile for the video capture/playback device drivers.
+#
+
+zoran-objs      :=	zr36120.o zr36120_i2c.o zr36120_mem.o
+zr36067-objs	:=	zoran_procfs.o zoran_device.o \
+			zoran_driver.o zoran_card.o
+tuner-objs	:=	tuner-core.o tuner-types.o tuner-simple.o \
+			mt20xx.o tda8290.o tea5767.o tda9887.o
+
+msp3400-objs	:=	msp3400-driver.o msp3400-kthreads.o
+
+obj-$(CONFIG_VIDEO_DEV) += videodev.o v4l2-common.o compat_ioctl32.o
+
+ifeq ($(CONFIG_VIDEO_V4L1_COMPAT),y)
+  obj-$(CONFIG_VIDEO_DEV) += v4l1-compat.o
+endif
+
+#
+# Makefile for the video capture/playback device drivers.
+#
+
+bttv-objs      :=      bttv-driver.o bttv-cards.o bttv-if.o \
+		       bttv-risc.o bttv-vbi.o bttv-i2c.o bttv-gpio.o \
+		       bttv-input.o
+
+obj-$(CONFIG_VIDEO_BT848) += bttv.o
+
+obj-$(CONFIG_VIDEO_BT848) += tvaudio.o tda7432.o tda9875.o ir-kbd-i2c.o
+obj-$(CONFIG_SOUND_TVMIXER) += tvmixer.o
+
+obj-$(CONFIG_VIDEO_ZR36120) += zoran.o
+obj-$(CONFIG_VIDEO_SAA6588) += saa6588.o
+obj-$(CONFIG_VIDEO_SAA5246A) += saa5246a.o
+obj-$(CONFIG_VIDEO_SAA5249) += saa5249.o
+obj-$(CONFIG_VIDEO_CQCAM) += c-qcam.o
+obj-$(CONFIG_VIDEO_BWQCAM) += bw-qcam.o
+obj-$(CONFIG_VIDEO_W9966) += w9966.o
+obj-$(CONFIG_VIDEO_ZORAN_BUZ) += saa7111.o saa7185.o zr36060.o
+obj-$(CONFIG_VIDEO_ZORAN_DC10) += saa7110.o adv7175.o zr36060.o
+obj-$(CONFIG_VIDEO_ZORAN_DC30) += adv7175.o vpx3220.o zr36050.o \
+	zr36016.o
+obj-$(CONFIG_VIDEO_ZORAN_LML33) += bt819.o bt856.o zr36060.o
+obj-$(CONFIG_VIDEO_ZORAN_LML33R10) += saa7114.o adv7170.o zr36060.o
+obj-$(CONFIG_VIDEO_ZORAN_AVS6EYES) += bt866.o ks0127.o zr36060.o
+obj-$(CONFIG_VIDEO_ZORAN) += zr36067.o videocodec.o
+obj-$(CONFIG_VIDEO_PMS) += pms.o
+obj-$(CONFIG_VIDEO_PLANB) += planb.o
+obj-$(CONFIG_VIDEO_VINO) += vino.o saa7191.o indycam.o
+obj-$(CONFIG_VIDEO_STRADIS) += stradis.o
+obj-$(CONFIG_VIDEO_CPIA) += cpia.o
+obj-$(CONFIG_VIDEO_CPIA_PP) += cpia_pp.o
+obj-$(CONFIG_VIDEO_CPIA_USB) += cpia_usb.o
+obj-$(CONFIG_VIDEO_MEYE) += meye.o
+
+saa7134-objs :=	saa7134-cards.o saa7134-core.o saa7134-i2c.o	\
+		saa7134-ts.o saa7134-tvaudio.o saa7134-vbi.o    \
+		saa7134-video.o saa7134-input.o
+
+obj-$(CONFIG_VIDEO_SAA7134) +=  saa7134.o saa7134-empress.o \
+				saa6752hs.o
+
+obj-$(CONFIG_VIDEO_SAA7134_ALSA) += saa7134-alsa.o
+obj-$(CONFIG_VIDEO_SAA7134_OSS) += saa7134-oss.o
+
+obj-$(CONFIG_VIDEO_SAA7134_DVB) += saa7134-dvb.o
+
+
+extra-cflags-$(CONFIG_VIDEO_BUF_DVB) += -DHAVE_VIDEO_BUF_DVB=1
+
+EXTRA_CFLAGS += $(extra-cflags-y) $(extra-cflags-m)
+obj-$(CONFIG_VIDEO_SAA7134) += ir-kbd-i2c.o
+cx88xx-objs	:= cx88-cards.o cx88-core.o cx88-i2c.o cx88-tvaudio.o \
+		   cx88-input.o
+cx8800-objs	:= cx88-video.o cx88-vbi.o
+cx8802-objs	:= cx88-mpeg.o
+
+obj-$(CONFIG_VIDEO_CX88) += cx88xx.o cx8800.o cx8802.o
+obj-$(CONFIG_VIDEO_CX88_ALSA) += cx88-alsa.o
+obj-$(CONFIG_VIDEO_CX88_BLACKBIRD) += cx88-blackbird.o
+obj-$(CONFIG_VIDEO_CX88_DVB) += cx88-dvb.o
+obj-$(CONFIG_VIDEO_CX88_VP3054) += cx88-vp3054-i2c.o
+
+
+extra-cflags-$(CONFIG_VIDEO_BUF_DVB) += -DHAVE_VIDEO_BUF_DVB=1
+extra-cflags-$(CONFIG_VIDEO_CX88_VP3054)+= -DHAVE_VP3054_I2C=1
+
+EXTRA_CFLAGS += $(extra-cflags-y) $(extra-cflags-m)
+em28xx-objs     := em28xx-video.o em28xx-i2c.o em28xx-cards.o em28xx-core.o \
+		   em28xx-input.o
+
+obj-$(CONFIG_VIDEO_EM28XX) += em28xx.o
+
+obj-$(CONFIG_VIDEO_EM28XX) += tvp5150.o
+obj-pvrusb2-sysfs-$(CONFIG_VIDEO_PVRUSB2_SYSFS) := pvrusb2-sysfs.o
+obj-pvrusb2-debugifc-$(CONFIG_VIDEO_PVRUSB2_DEBUGIFC) := pvrusb2-debugifc.o
+
+obj-pvrusb2-24xxx-$(CONFIG_VIDEO_PVRUSB2_24XXX) := \
+		   pvrusb2-cx2584x-v4l.o \
+		   pvrusb2-wm8775.o
+
+pvrusb2-objs	:= pvrusb2-i2c-core.o pvrusb2-i2c-cmd-v4l2.o \
+		   pvrusb2-audio.o pvrusb2-i2c-chips-v4l2.o \
+		   pvrusb2-encoder.o pvrusb2-video-v4l.o \
+		   pvrusb2-eeprom.o pvrusb2-tuner.o \
+		   pvrusb2-main.o pvrusb2-hdw.o pvrusb2-v4l2.o \
+		   pvrusb2-ctrl.o pvrusb2-std.o \
+		   pvrusb2-context.o pvrusb2-io.o pvrusb2-ioread.o \
+		   $(obj-pvrusb2-24xxx-y) \
+		   $(obj-pvrusb2-sysfs-y) $(obj-pvrusb2-debugifc-y)
+
+obj-$(CONFIG_VIDEO_PVRUSB2) += pvrusb2.o
+obj-$(CONFIG_VIDEO_MSP3400) += msp3400.o
+obj-$(CONFIG_VIDEO_CS53L32A) += cs53l32a.o
+obj-$(CONFIG_VIDEO_TLV320AIC23B) += tlv320aic23b.o
+obj-$(CONFIG_VIDEO_WM8775) += wm8775.o
+obj-$(CONFIG_VIDEO_WM8739) += wm8739.o
+ovcamchip-objs     := ovcamchip_core.o ov6x20.o ov6x30.o ov7x10.o ov7x20.o \
+		      ov76be.o
+
+obj-$(CONFIG_VIDEO_OVCAMCHIP) += ovcamchip.o
+cpia2-objs	:= cpia2_v4l.o cpia2_usb.o cpia2_core.o
+
+obj-$(CONFIG_VIDEO_CPIA2) += cpia2.o
+obj-$(CONFIG_VIDEO_MXB) += saa7111.o tda9840.o tea6415c.o tea6420.o mxb.o
+obj-$(CONFIG_VIDEO_HEXIUM_ORION) += hexium_orion.o
+obj-$(CONFIG_VIDEO_HEXIUM_GEMINI) += hexium_gemini.o
+obj-$(CONFIG_VIDEO_DPC) += saa7111.o dpc7146.o
+obj-$(CONFIG_TUNER_3036) += tuner-3036.o
+
+obj-$(CONFIG_VIDEO_TUNER) += tuner.o
+obj-$(CONFIG_VIDEO_BUF)   += video-buf.o
+obj-$(CONFIG_VIDEO_BUF_DVB) += video-buf-dvb.o
+obj-$(CONFIG_VIDEO_BTCX)  += btcx-risc.o
+obj-$(CONFIG_VIDEO_TVEEPROM) += tveeprom.o
+
+obj-$(CONFIG_VIDEO_M32R_AR_M64278) += arv.o
+
+cx25840-objs    := cx25840-core.o cx25840-audio.o cx25840-firmware.o \
+		   cx25840-vbi.o
+
+obj-$(CONFIG_VIDEO_CX25840) += cx25840.o
+
+obj-$(CONFIG_VIDEO_SAA711X) += saa7115.o
+obj-$(CONFIG_VIDEO_SAA7127) += saa7127.o
+obj-$(CONFIG_VIDEO_UPD64031A) += upd64031a.o
+obj-$(CONFIG_VIDEO_UPD64083) += upd64083.o
+obj-$(CONFIG_VIDEO_CX2341X) += cx2341x.o
+
+obj-$(CONFIG_USB_DABUSB)        += dabusb.o
+obj-$(CONFIG_USB_OV511)         += ov511.o
+obj-$(CONFIG_USB_SE401)         += se401.o
+obj-$(CONFIG_USB_STV680)        += stv680.o
+obj-$(CONFIG_USB_W9968CF)       += w9968cf.o
+
+sn9c102-objs    := sn9c102_core.o sn9c102_hv7131d.o sn9c102_mi0343.o \
+		   sn9c102_ov7630.o sn9c102_pas106b.o sn9c102_pas202bca.o \
+		   sn9c102_pas202bcb.o sn9c102_tas5110c1b.o \
+		   sn9c102_tas5130d1b.o
+
+obj-$(CONFIG_USB_SN9C102)       += sn9c102.o
+
+et61x251-objs   := et61x251_core.o et61x251_tas5130d1b.o
+
+obj-$(CONFIG_USB_ET61X251)      += et61x251.o
+
+pwc-objs	:= pwc-if.o pwc-misc.o pwc-ctrl.o pwc-v4l.o pwc-uncompress.o
+pwc-objs	+= pwc-dec1.o pwc-dec23.o pwc-kiara.o pwc-timon.o
+
+obj-$(CONFIG_USB_PWC) += pwc.o
+
+ifeq ($(CONFIG_USB_PWC_DEBUG),y)
+EXTRA_CFLAGS += -DCONFIG_PWC_DEBUG=1
+else
+EXTRA_CFLAGS += -DCONFIG_PWC_DEBUG=0
+endif
+
+
+zc0301-objs     := zc0301_core.o zc0301_pb0330.o zc0301_pas202bcb.o
+
+obj-$(CONFIG_USB_ZC0301)        += zc0301.o
+
+obj-$(CONFIG_VIDEO_USBVIDEO)    += usbvideo.o
+obj-$(CONFIG_USB_IBMCAM)        += ibmcam.o ultracam.o
+obj-$(CONFIG_USB_KONICAWC)      += konicawc.o
+obj-$(CONFIG_USB_VICAM)         += vicam.o
+obj-$(CONFIG_USB_QUICKCAM_MESSENGER)	+= quickcam_messenger.o
+obj-$(CONFIG_VIDEO_USBVIDEO)    += usbvideo.o
+obj-$(CONFIG_USB_IBMCAM)        += ibmcam.o ultracam.o
+obj-$(CONFIG_USB_KONICAWC)      += konicawc.o
+obj-$(CONFIG_USB_VICAM)         += vicam.o
+obj-$(CONFIG_USB_QUICKCAM_MESSENGER)	+= quickcam_messenger.o
+obj-$(CONFIG_VIDEO_USBVIDEO)    += usbvideo.o
+obj-$(CONFIG_USB_IBMCAM)        += ibmcam.o ultracam.o
+obj-$(CONFIG_USB_KONICAWC)      += konicawc.o
+obj-$(CONFIG_USB_VICAM)         += vicam.o
+obj-$(CONFIG_USB_QUICKCAM_MESSENGER)	+= quickcam_messenger.o
+obj-$(CONFIG_VIDEO_USBVIDEO)    += usbvideo.o
+obj-$(CONFIG_USB_IBMCAM)        += ibmcam.o ultracam.o
+obj-$(CONFIG_USB_KONICAWC)      += konicawc.o
+obj-$(CONFIG_USB_VICAM)         += vicam.o
+obj-$(CONFIG_USB_QUICKCAM_MESSENGER)	+= quickcam_messenger.o
+
+obj-$(CONFIG_VIDEO_VIVI) += vivi.o
+
+extra-cflags-$(CONFIG_VIDEO_V4L1_COMPAT) += -DCONFIG_VIDEO_V4L1_COMPAT
+
+#
+# Makefile for the kernel character device drivers.
+#
+
+miropcm20-objs	:= miropcm20-rds-core.o miropcm20-radio.o
+
+obj-$(CONFIG_RADIO_AZTECH) += radio-aztech.o
+obj-$(CONFIG_RADIO_RTRACK2) += radio-rtrack2.o
+obj-$(CONFIG_RADIO_SF16FMI) += radio-sf16fmi.o
+obj-$(CONFIG_RADIO_SF16FMR2) += radio-sf16fmr2.o
+obj-$(CONFIG_RADIO_CADET) += radio-cadet.o
+obj-$(CONFIG_RADIO_TYPHOON) += radio-typhoon.o
+obj-$(CONFIG_RADIO_TERRATEC) += radio-terratec.o
+obj-$(CONFIG_RADIO_MAXIRADIO) += radio-maxiradio.o
+obj-$(CONFIG_RADIO_RTRACK) += radio-aimslab.o
+obj-$(CONFIG_RADIO_ZOLTRIX) += radio-zoltrix.o
+obj-$(CONFIG_RADIO_MIROPCM20) += miropcm20.o
+obj-$(CONFIG_RADIO_MIROPCM20_RDS) += miropcm20-rds.o
+obj-$(CONFIG_RADIO_GEMTEK) += radio-gemtek.o
+obj-$(CONFIG_RADIO_GEMTEK_PCI) += radio-gemtek-pci.o
+obj-$(CONFIG_RADIO_TRUST) += radio-trust.o
+obj-$(CONFIG_RADIO_MAESTRO) += radio-maestro.o
+obj-$(CONFIG_USB_DSBR) += dsbr100.o
+
+EXTRA_CFLAGS += -Isound
+#
+# Makefile for the kernel multimedia device drivers.
+#
+
+#
+# Makefile for the kernel DVB device drivers.
+#
+
+dvb-core-objs := dvbdev.o dmxdev.o dvb_demux.o dvb_filter.o 	\
+		 dvb_ca_en50221.o dvb_frontend.o 		\
+		 dvb_net.o dvb_ringbuffer.o dvb_math.o
+
+obj-$(CONFIG_DVB_CORE) += dvb-core.o
+#
+# Makefile for the kernel DVB frontend device drivers.
+#
+
+
+stb0899-objs	:= stb0899_core.o stb0899_drv.o stb0899_dvbs2util.o stb0899_chip.o stb0899_init.o stb0899_util.o stb0899_tuner.o
+
+obj-$(CONFIG_DVB_STB0899) += stb0899.o
+#obj-$(CONFIG_DVB_STB6100) += stb6100.o
+obj-$(CONFIG_DVB_PLL) += dvb-pll.o
+obj-$(CONFIG_DVB_STV0299) += stv0299.o
+obj-$(CONFIG_DVB_SP8870) += sp8870.o
+obj-$(CONFIG_DVB_CX22700) += cx22700.o
+obj-$(CONFIG_DVB_CX24110) += cx24110.o
+obj-$(CONFIG_DVB_TDA8083) += tda8083.o
+obj-$(CONFIG_DVB_L64781) += l64781.o
+obj-$(CONFIG_DVB_DIB3000MB) += dib3000mb.o
+obj-$(CONFIG_DVB_DIB3000MC) += dib3000mc.o dibx000_common.o
+obj-$(CONFIG_DVB_MT312) += mt312.o
+obj-$(CONFIG_DVB_VES1820) += ves1820.o
+obj-$(CONFIG_DVB_VES1X93) += ves1x93.o
+obj-$(CONFIG_DVB_TDA1004X) += tda1004x.o
+obj-$(CONFIG_DVB_SP887X) += sp887x.o
+obj-$(CONFIG_DVB_NXT6000) += nxt6000.o
+obj-$(CONFIG_DVB_MT352) += mt352.o
+obj-$(CONFIG_DVB_ZL10353) += zl10353.o
+obj-$(CONFIG_DVB_CX22702) += cx22702.o
+obj-$(CONFIG_DVB_TDA10021) += tda10021.o
+obj-$(CONFIG_DVB_STV0297) += stv0297.o
+obj-$(CONFIG_DVB_NXT200X) += nxt200x.o
+obj-$(CONFIG_DVB_OR51211) += or51211.o
+obj-$(CONFIG_DVB_OR51132) += or51132.o
+obj-$(CONFIG_DVB_BCM3510) += bcm3510.o
+obj-$(CONFIG_DVB_S5H1420) += s5h1420.o
+obj-$(CONFIG_DVB_LGDT330X) += lgdt330x.o
+obj-$(CONFIG_DVB_CX24123) += cx24123.o
+obj-$(CONFIG_DVB_LNBP21) += lnbp21.o
+obj-$(CONFIG_DVB_ISL6421) += isl6421.o
+obj-$(CONFIG_DVB_TDA10086) += tda10086.o
+obj-$(CONFIG_DVB_TDA826X) += tda826x.o
+obj-$(CONFIG_DVB_TUNER_MT2060) += mt2060.o
+obj-$(CONFIG_DVB_MB86A16) += mb86a16.o
+obj-$(CONFIG_DVB_CU1216) += cu1216.o#
+# Makefile for the kernel SAA7146 FULL TS DVB device driver
+# and the AV7110 DVB device driver
+#
+
+dvb-ttpci-objs := av7110_hw.o av7110_v4l.o av7110_av.o av7110_ca.o av7110.o av7110_ipack.o av7110_ir.o
+
+obj-$(CONFIG_DVB_BUDGET) += budget-core.o budget.o ttpci-eeprom.o
+obj-$(CONFIG_DVB_BUDGET_AV) += budget-core.o budget-av.o ttpci-eeprom.o
+obj-$(CONFIG_DVB_BUDGET_CI) += budget-core.o budget-ci.o ttpci-eeprom.o
+obj-$(CONFIG_DVB_BUDGET_PATCH) += budget-core.o budget-patch.o ttpci-eeprom.o
+obj-$(CONFIG_DVB_AV7110) += dvb-ttpci.o ttpci-eeprom.o
+
+
+hostprogs-y	:= fdump
+
+ifeq ($(CONFIG_DVB_AV7110_FIRMWARE),y)
+$(obj)/av7110.o: $(obj)/av7110_firm.h
+
+$(obj)/av7110_firm.h: $(obj)/fdump
+	$(obj)/fdump $(CONFIG_DVB_AV7110_FIRMWARE_FILE) dvb_ttpci_fw $@
+endif
+obj-$(CONFIG_DVB_TTUSB_DEC) += ttusb_dec.o ttusbdecfe.o
+
+obj-$(CONFIG_DVB_TTUSB_BUDGET) += dvb-ttusb-budget.o
+
+b2c2-flexcop-objs = flexcop.o flexcop-fe-tuner.o flexcop-i2c.o \
+	flexcop-sram.o flexcop-eeprom.o flexcop-misc.o flexcop-hw-filter.o \
+	flexcop-dma.o
+obj-$(CONFIG_DVB_B2C2_FLEXCOP) += b2c2-flexcop.o
+
+ifdef STV0297_CS2
+obj-$(CONFIG_DVB_B2C2_FLEXCOP) += stv0297_cs2.o
+
+endif
+b2c2-flexcop-pci-objs = flexcop-pci.o
+obj-$(CONFIG_DVB_B2C2_FLEXCOP_PCI) += b2c2-flexcop-pci.o
+
+b2c2-flexcop-usb-objs = flexcop-usb.o
+obj-$(CONFIG_DVB_B2C2_FLEXCOP_USB) += b2c2-flexcop-usb.o
+
+obj-$(CONFIG_DVB_BT8XX) += bt878.o dvb-bt8xx.o dst.o dst_ca.o
+
+obj-$(CONFIG_DVB_CINERGYT2) += cinergyT2.o
+
+dvb-usb-objs = dvb-usb-firmware.o dvb-usb-init.o dvb-usb-urb.o dvb-usb-i2c.o dvb-usb-dvb.o dvb-usb-remote.o
+obj-$(CONFIG_DVB_USB) += dvb-usb.o
+
+dvb-usb-vp7045-objs = vp7045.o vp7045-fe.o
+obj-$(CONFIG_DVB_USB_VP7045) += dvb-usb-vp7045.o
+
+dvb-usb-vp702x-objs = vp702x.o vp702x-fe.o
+obj-$(CONFIG_DVB_USB_VP702X) += dvb-usb-vp702x.o
+
+dvb-usb-gp8psk-objs = gp8psk.o gp8psk-fe.o
+obj-$(CONFIG_DVB_USB_GP8PSK) += dvb-usb-gp8psk.o
+
+dvb-usb-dtt200u-objs = dtt200u.o dtt200u-fe.o
+obj-$(CONFIG_DVB_USB_DTT200U) += dvb-usb-dtt200u.o
+
+dvb-usb-dibusb-common-objs = dibusb-common.o
+
+dvb-usb-a800-objs = a800.o
+obj-$(CONFIG_DVB_USB_A800) += dvb-usb-dibusb-common.o dvb-usb-a800.o
+
+dvb-usb-dibusb-mb-objs = dibusb-mb.o
+obj-$(CONFIG_DVB_USB_DIBUSB_MB) += dvb-usb-dibusb-common.o dvb-usb-dibusb-mb.o
+
+dvb-usb-dibusb-mc-objs = dibusb-mc.o
+obj-$(CONFIG_DVB_USB_DIBUSB_MC) += dvb-usb-dibusb-common.o dvb-usb-dibusb-mc.o
+
+dvb-usb-nova-t-usb2-objs = nova-t-usb2.o
+obj-$(CONFIG_DVB_USB_NOVA_T_USB2) += dvb-usb-dibusb-common.o dvb-usb-nova-t-usb2.o
+
+dvb-usb-umt-010-objs = umt-010.o
+obj-$(CONFIG_DVB_USB_UMT_010) += dvb-usb-dibusb-common.o dvb-usb-umt-010.o
+
+dvb-usb-digitv-objs = digitv.o
+obj-$(CONFIG_DVB_USB_DIGITV) += dvb-usb-digitv.o
+
+dvb-usb-cxusb-objs = cxusb.o
+obj-$(CONFIG_DVB_USB_CXUSB) += dvb-usb-cxusb.o
+
+obj-$(CONFIG_DVB_PLUTO2) += pluto2.o
+
+mantis-objs = mantis_core.o mantis_dma.o mantis_pci.o mantis_i2c.o	\
+	mantis_dvb.o mantis_vp1033.o mantis_vp1034.o mantis_vp2033.o	\
+	mantis_vp3030.o mantis_vp1041.o
+
+
+obj-$(CONFIG_DVB_MANTIS) += mantis.o
+
+extra-cflags-$(CONFIG_DVB_MANTIS_CI)+= -DHAVE_MANTIS_CI=1
+
+EXTRA_CFLAGS += $(extra-cflags-y) $(extra-cflags-m)
+
+media-install::
+	@echo "Stripping debug info from files:"
+	@strip --strip-debug $(inst-m)
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/dvb-usb files:"
+	@install -d $(KDIR26)/dvb/dvb-usb
+	@files='dvb-usb.ko dvb-usb-vp7045.ko dvb-usb-vp702x.ko dvb-usb-gp8psk.ko dvb-usb-dtt200u.ko dvb-usb-dibusb-common.ko dvb-usb-a800.ko dvb-usb-dibusb-mb.ko dvb-usb-dibusb-mc.ko dvb-usb-nova-t-usb2.ko dvb-usb-umt-010.ko dvb-usb-digitv.ko dvb-usb-cxusb.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/dvb-usb; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/ttpci files:"
+	@install -d $(KDIR26)/dvb/ttpci
+	@files='budget-core.ko budget.ko ttpci-eeprom.ko budget-av.ko budget-ci.ko budget-patch.ko dvb-ttpci.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/ttpci; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/et61x251 files:"
+	@install -d $(KDIR26)/video/et61x251
+	@files='et61x251.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/et61x251; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/cpia2 files:"
+	@install -d $(KDIR26)/video/cpia2
+	@files='cpia2.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/cpia2; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/cinergyT2 files:"
+	@install -d $(KDIR26)/dvb/cinergyT2
+	@files='cinergyT2.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/cinergyT2; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/b2c2 files:"
+	@install -d $(KDIR26)/dvb/b2c2
+	@files='b2c2-flexcop.ko stv0297_cs2.ko b2c2-flexcop-pci.ko b2c2-flexcop-usb.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/b2c2; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/frontends files:"
+	@install -d $(KDIR26)/dvb/frontends
+	@files='stb0899.ko dvb-pll.ko stv0299.ko sp8870.ko cx22700.ko cx24110.ko tda8083.ko l64781.ko dib3000mb.ko dib3000mc.ko dibx000_common.ko mt312.ko ves1820.ko ves1x93.ko tda1004x.ko sp887x.ko nxt6000.ko mt352.ko zl10353.ko cx22702.ko tda10021.ko stv0297.ko nxt200x.ko or51211.ko or51132.ko bcm3510.ko s5h1420.ko lgdt330x.ko cx24123.ko lnbp21.ko isl6421.ko tda10086.ko tda826x.ko mt2060.ko mb86a16.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/frontends; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/mantis files:"
+	@install -d $(KDIR26)/dvb/mantis
+	@files='mantis.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/mantis; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/bt8xx files:"
+	@install -d $(KDIR26)/video/bt8xx
+	@files='bttv.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/bt8xx; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/cx88 files:"
+	@install -d $(KDIR26)/video/cx88
+	@files='cx88xx.ko cx8800.ko cx8802.ko cx88-alsa.ko cx88-blackbird.ko cx88-dvb.ko cx88-vp3054-i2c.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/cx88; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/pluto2 files:"
+	@install -d $(KDIR26)/dvb/pluto2
+	@files='pluto2.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/pluto2; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/usbvideo files:"
+	@install -d $(KDIR26)/video/usbvideo
+	@files='usbvideo.ko ibmcam.ko ultracam.ko konicawc.ko vicam.ko quickcam_messenger.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/usbvideo; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/sn9c102 files:"
+	@install -d $(KDIR26)/video/sn9c102
+	@files='sn9c102.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/sn9c102; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/dvb-core files:"
+	@install -d $(KDIR26)/dvb/dvb-core
+	@files='dvb-core.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/dvb-core; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video files:"
+	@install -d $(KDIR26)/video
+	@files='videodev.ko v4l2-common.ko compat_ioctl32.ko v4l1-compat.ko tvaudio.ko tda7432.ko tda9875.ko ir-kbd-i2c.ko tvmixer.ko zoran.ko saa6588.ko saa5246a.ko saa5249.ko c-qcam.ko bw-qcam.ko w9966.ko saa7111.ko saa7185.ko zr36060.ko saa7110.ko adv7175.ko vpx3220.ko zr36050.ko bt819.ko bt856.ko saa7114.ko adv7170.ko bt866.ko ks0127.ko zr36067.ko videocodec.ko pms.ko planb.ko vino.ko saa7191.ko indycam.ko stradis.ko cpia.ko cpia_pp.ko cpia_usb.ko meye.ko tvp5150.ko msp3400.ko cs53l32a.ko tlv320aic23b.ko wm8775.ko wm8739.ko tda9840.ko tea6415c.ko tea6420.ko mxb.ko hexium_orion.ko hexium_gemini.ko dpc7146.ko tuner-3036.ko tuner.ko video-buf.ko video-buf-dvb.ko btcx-risc.ko tveeprom.ko arv.ko saa7115.ko saa7127.ko upd64031a.ko upd64083.ko cx2341x.ko dabusb.ko ov511.ko se401.ko stv680.ko w9968cf.ko vivi.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/common files:"
+	@install -d $(KDIR26)/common
+	@files='saa7146.ko saa7146_vv.ko ir-common.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/common; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/em28xx files:"
+	@install -d $(KDIR26)/video/em28xx
+	@files='em28xx.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/em28xx; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/pvrusb2 files:"
+	@install -d $(KDIR26)/video/pvrusb2
+	@files='pvrusb2-sysfs.ko pvrusb2-debugifc.ko pvrusb2.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/pvrusb2; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/radio files:"
+	@install -d $(KDIR26)/radio
+	@files='radio-aztech.ko radio-rtrack2.ko radio-sf16fmi.ko radio-sf16fmr2.ko radio-cadet.ko radio-typhoon.ko radio-terratec.ko radio-maxiradio.ko radio-aimslab.ko radio-zoltrix.ko miropcm20.ko miropcm20-rds.ko radio-gemtek.ko radio-gemtek-pci.ko radio-trust.ko radio-maestro.ko dsbr100.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/radio; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/bt8xx files:"
+	@install -d $(KDIR26)/dvb/bt8xx
+	@files='bt878.ko dvb-bt8xx.ko dst.ko dst_ca.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/bt8xx; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/cx25840 files:"
+	@install -d $(KDIR26)/video/cx25840
+	@files='cx25840.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/cx25840; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/ttusb-dec files:"
+	@install -d $(KDIR26)/dvb/ttusb-dec
+	@files='ttusb_dec.ko ttusbdecfe.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/ttusb-dec; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/dvb/ttusb-budget files:"
+	@install -d $(KDIR26)/dvb/ttusb-budget
+	@files='dvb-ttusb-budget.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/dvb/ttusb-budget; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/pwc files:"
+	@install -d $(KDIR26)/video/pwc
+	@files='pwc.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/pwc; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/ovcamchip files:"
+	@install -d $(KDIR26)/video/ovcamchip
+	@files='ovcamchip.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/ovcamchip; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/saa7134 files:"
+	@install -d $(KDIR26)/video/saa7134
+	@files='saa7134.ko saa7134-empress.ko saa7134-alsa.ko saa7134-oss.ko saa7134-dvb.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/saa7134; fi; done; echo;
+
+	@echo -e "\nInstalling $(KDIR26)/video/zc0301 files:"
+	@install -d $(KDIR26)/video/zc0301
+	@files='zc0301.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/zc0301; fi; done; echo;
+
+	/sbin/depmod -a ${KERNELRELEASE}
+
+media-rminstall::
+	@echo -e "\nRemoving old $(DEST) files\n"
+	@echo -e "\nRemoving old $(KDIR26)/dvb/dvb-usb files:"
+	@files='dvb-usb.ko dvb-usb-vp7045.ko dvb-usb-vp702x.ko dvb-usb-gp8psk.ko dvb-usb-dtt200u.ko dvb-usb-dibusb-common.ko dvb-usb-a800.ko dvb-usb-dibusb-mb.ko dvb-usb-dibusb-mc.ko dvb-usb-nova-t-usb2.ko dvb-usb-umt-010.ko dvb-usb-digitv.ko dvb-usb-cxusb.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/dvb-usb/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/dvb-usb/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/dvb-usb/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/dvb-usb/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/ttpci files:"
+	@files='budget-core.ko budget.ko ttpci-eeprom.ko budget-av.ko budget-ci.ko budget-patch.ko dvb-ttpci.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/ttpci/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/ttpci/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/ttpci/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/ttpci/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/et61x251 files:"
+	@files='et61x251.ko '; for i in $$files;do if [ -e $(KDIR26)/video/et61x251/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/et61x251/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/et61x251/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/et61x251/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/cpia2 files:"
+	@files='cpia2.ko '; for i in $$files;do if [ -e $(KDIR26)/video/cpia2/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/cpia2/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/cpia2/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/cpia2/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/cinergyT2 files:"
+	@files='cinergyT2.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/cinergyT2/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/cinergyT2/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/cinergyT2/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/cinergyT2/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/b2c2 files:"
+	@files='b2c2-flexcop.ko stv0297_cs2.ko b2c2-flexcop-pci.ko b2c2-flexcop-usb.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/b2c2/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/b2c2/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/b2c2/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/b2c2/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/frontends files:"
+	@files='stb0899.ko dvb-pll.ko stv0299.ko sp8870.ko cx22700.ko cx24110.ko tda8083.ko l64781.ko dib3000mb.ko dib3000mc.ko dibx000_common.ko mt312.ko ves1820.ko ves1x93.ko tda1004x.ko sp887x.ko nxt6000.ko mt352.ko zl10353.ko cx22702.ko tda10021.ko stv0297.ko nxt200x.ko or51211.ko or51132.ko bcm3510.ko s5h1420.ko lgdt330x.ko cx24123.ko lnbp21.ko isl6421.ko tda10086.ko tda826x.ko mt2060.ko mb86a16.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/frontends/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/frontends/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/frontends/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/frontends/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/mantis files:"
+	@files='mantis.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/mantis/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/mantis/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/mantis/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/mantis/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/bt8xx files:"
+	@files='bttv.ko '; for i in $$files;do if [ -e $(KDIR26)/video/bt8xx/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/bt8xx/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/bt8xx/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/bt8xx/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/cx88 files:"
+	@files='cx88xx.ko cx8800.ko cx8802.ko cx88-alsa.ko cx88-blackbird.ko cx88-dvb.ko cx88-vp3054-i2c.ko '; for i in $$files;do if [ -e $(KDIR26)/video/cx88/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/cx88/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/cx88/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/cx88/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/pluto2 files:"
+	@files='pluto2.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/pluto2/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/pluto2/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/pluto2/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/pluto2/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/usbvideo files:"
+	@files='usbvideo.ko ibmcam.ko ultracam.ko konicawc.ko vicam.ko quickcam_messenger.ko '; for i in $$files;do if [ -e $(KDIR26)/video/usbvideo/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/usbvideo/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/usbvideo/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/usbvideo/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/sn9c102 files:"
+	@files='sn9c102.ko '; for i in $$files;do if [ -e $(KDIR26)/video/sn9c102/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/sn9c102/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/sn9c102/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/sn9c102/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/dvb-core files:"
+	@files='dvb-core.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/dvb-core/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/dvb-core/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/dvb-core/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/dvb-core/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video files:"
+	@files='videodev.ko v4l2-common.ko compat_ioctl32.ko v4l1-compat.ko tvaudio.ko tda7432.ko tda9875.ko ir-kbd-i2c.ko tvmixer.ko zoran.ko saa6588.ko saa5246a.ko saa5249.ko c-qcam.ko bw-qcam.ko w9966.ko saa7111.ko saa7185.ko zr36060.ko saa7110.ko adv7175.ko vpx3220.ko zr36050.ko bt819.ko bt856.ko saa7114.ko adv7170.ko bt866.ko ks0127.ko zr36067.ko videocodec.ko pms.ko planb.ko vino.ko saa7191.ko indycam.ko stradis.ko cpia.ko cpia_pp.ko cpia_usb.ko meye.ko tvp5150.ko msp3400.ko cs53l32a.ko tlv320aic23b.ko wm8775.ko wm8739.ko tda9840.ko tea6415c.ko tea6420.ko mxb.ko hexium_orion.ko hexium_gemini.ko dpc7146.ko tuner-3036.ko tuner.ko video-buf.ko video-buf-dvb.ko btcx-risc.ko tveeprom.ko arv.ko saa7115.ko saa7127.ko upd64031a.ko upd64083.ko cx2341x.ko dabusb.ko ov511.ko se401.ko stv680.ko w9968cf.ko vivi.ko '; for i in $$files;do if [ -e $(KDIR26)/video/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/common files:"
+	@files='saa7146.ko saa7146_vv.ko ir-common.ko '; for i in $$files;do if [ -e $(KDIR26)/common/$$i ]; then echo -n "$$i "; rm $(KDIR26)/common/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/common/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/common/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/em28xx files:"
+	@files='em28xx.ko '; for i in $$files;do if [ -e $(KDIR26)/video/em28xx/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/em28xx/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/em28xx/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/em28xx/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/pvrusb2 files:"
+	@files='pvrusb2-sysfs.ko pvrusb2-debugifc.ko pvrusb2.ko '; for i in $$files;do if [ -e $(KDIR26)/video/pvrusb2/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/pvrusb2/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/pvrusb2/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/pvrusb2/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/radio files:"
+	@files='radio-aztech.ko radio-rtrack2.ko radio-sf16fmi.ko radio-sf16fmr2.ko radio-cadet.ko radio-typhoon.ko radio-terratec.ko radio-maxiradio.ko radio-aimslab.ko radio-zoltrix.ko miropcm20.ko miropcm20-rds.ko radio-gemtek.ko radio-gemtek-pci.ko radio-trust.ko radio-maestro.ko dsbr100.ko '; for i in $$files;do if [ -e $(KDIR26)/radio/$$i ]; then echo -n "$$i "; rm $(KDIR26)/radio/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/radio/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/radio/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/bt8xx files:"
+	@files='bt878.ko dvb-bt8xx.ko dst.ko dst_ca.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/bt8xx/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/bt8xx/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/bt8xx/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/bt8xx/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/cx25840 files:"
+	@files='cx25840.ko '; for i in $$files;do if [ -e $(KDIR26)/video/cx25840/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/cx25840/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/cx25840/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/cx25840/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/ttusb-dec files:"
+	@files='ttusb_dec.ko ttusbdecfe.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/ttusb-dec/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/ttusb-dec/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/ttusb-dec/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/ttusb-dec/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/dvb/ttusb-budget files:"
+	@files='dvb-ttusb-budget.ko '; for i in $$files;do if [ -e $(KDIR26)/dvb/ttusb-budget/$$i ]; then echo -n "$$i "; rm $(KDIR26)/dvb/ttusb-budget/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/dvb/ttusb-budget/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/dvb/ttusb-budget/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/pwc files:"
+	@files='pwc.ko '; for i in $$files;do if [ -e $(KDIR26)/video/pwc/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/pwc/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/pwc/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/pwc/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/ovcamchip files:"
+	@files='ovcamchip.ko '; for i in $$files;do if [ -e $(KDIR26)/video/ovcamchip/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/ovcamchip/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/ovcamchip/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/ovcamchip/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/saa7134 files:"
+	@files='saa7134.ko saa7134-empress.ko saa7134-alsa.ko saa7134-oss.ko saa7134-dvb.ko '; for i in $$files;do if [ -e $(KDIR26)/video/saa7134/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/saa7134/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/saa7134/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/saa7134/$$i.gz; fi; done; echo;
+
+	@echo -e "\nRemoving old $(KDIR26)/video/zc0301 files:"
+	@files='zc0301.ko '; for i in $$files;do if [ -e $(KDIR26)/video/zc0301/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/zc0301/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/zc0301/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/zc0301/$$i.gz; fi; done; echo;
+

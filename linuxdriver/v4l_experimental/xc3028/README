@@ -1,0 +1,37 @@
+== Hauppauge HVR 900 ==
+
+==== Installation ====
+
+1. get the v4l-dvb repository from linuxtv and type make for generating all symlinks in v4l-dvb/v4l
+2. copy tuner.h into v4l-dvb/linux/include/media/ in your v4l directory
+3. simply replace following files in the repository  
+ * Makefile
+ * em28xx-cards.c  
+ * em28xx.h  
+ * tuner-core.c  
+ * tuner-types.c  
+ * xc3028.c 
+with the files in this directory and simply recompile (copy these files to v4l-dvb/v4l)
+
+==== Firmware ====
+
+this device needs a firmware, which is stored in emBDA.sys
+build the firmwareextractor with
+$ gcc convert.c -o convert
+and extract the firmware
+$ ./convert emBDA.sys > /lib/firmware/xceive_xc_3028.fw
+(I only tested that tool with Hauppauge HVR 900, Terratec might work too but without any guarantee - please send me BDA files of other xc3028 devices)
+
+==== General ====
+
+ * the xc3028 works very reliable and the frequencies are correct for europe
+ * Please add your email, product name, vendor/product id to the discussion in the v4l wiki at www.linuxtv.org
+ * I'll not be responsible for any damage caused by this driver, use it with your own risk
+ 
+==== TODO ====
+
+ * some cleanup
+ * figuring out channel locks
+
+
+Markus Rechberger <mrechberger@gmail.com>

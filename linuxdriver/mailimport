@@ -1,0 +1,169 @@
+#!/bin/bash
+# Copyright (c) 2006 Mauro Carvalho Chehab (mchehab@infradead.org)
+# This code is placed under the terms of the GNU General Public License
+#
+#This script is capable to mass import patches on a mbox file, test for it, allow
+#comment editing and applying it.
+#
+#This script requires:
+#1) git, since it uses gitimport to break a mbox into patches;
+#2) hg mailqueue. It is easier to manage patches using mq, allowing to work with
+#   the patches before applying to the tree.
+
+#uncomment to use mq
+#usemq=1
+
+#uncomment to stop at the first error while testing a patch with --dry-run
+#exitonerror=1
+
+head=v4l/scripts/hghead.pl
+
+if [ "$1" == "" ]; then
+	echo "Usage: $0 <mbox>"
+	exit
+fi
+MBOX=$1
+
+if [ "$TMPDIR" == "" ]; then
+	TMPDIR=/tmp
+fi
+
+if [ "$EDITOR" == "" ]; then
+	EDITOR=nano
+fi
+
+DIR=$TMPDIR/mailimport$$
+mkdir $DIR
+if [ "$?" != "0" ]; then
+	echo "*** Error at mkdir $DIR"
+	exit;
+fi
+trap "rm -rf $DIR" EXIT
+TMP2=$DIR/patchheader
+
+apply_patch () {
+	next=$1
+
+	unset cont
+	until [ "$cont" == "0" ]; do
+		cont=1
+		pdir=linux
+		echo patch -s -t -p1 --dry-run -l -N -d $pdir -i $next
+		patch -s -t -p1 --dry-run -l -N -d $pdir -i $next
+		if [ "$?" != "0" ]; then
+			pdir=.
+			echo patch -s -t -p1 --dry-run -l -N -d $pdir -i $next
+			patch -s -t -p1 --dry-run -l -N -d $pdir -i $next
+		fi
+
+		if [ "$?" != "0" ]; then
+			echo "*** ERROR: Patch didn't applied well"
+			if [ "$exitonerror" != "" ]; then
+				$head $next
+				exit
+			fi
+			echo "** Edit file $next"
+			sleep 1
+			$EDITOR $next
+		else
+			echo "Patch applied OK against $pdir"
+			cont=0
+		fi
+	done
+
+	$EDITOR $next
+
+	unset cont
+	until [ "$cont" == "0" ]; do
+		cont=0
+		$head $next >$TMP2
+
+		if [ "`grep '^Bad:' $TMP2`" != "" ]; then
+			echo "*** ERROR: Patch bad formed. Please fix."
+			sleep 1
+			$EDITOR $next
+			cont=1
+		fi
+	done
+
+	committer=`grep "Committer:" $TMP2|sed s/"#Committer: "//`
+
+	if [ "$usemq" != "" ]; then
+		name=`cat $next | perl -ne '
+			if (s/Subject:\s+(.*)/$1/) {
+				m/\s*(.*)\s*\n/;
+				$_="$1";
+
+				tr/[A-Z]/[a-z]/;
+				s/[^a-z0-9]/_/g;
+				s/_+$//;
+				s/_+/_/g;
+				s/^v4l_dvb_\d+[a-z]*_//g;
+
+				printf "%s.patch",$_;
+				exit;
+			}'`
+
+		cat $next| grep -v "^#" >$TMPDIR/$name
+
+		echo hg -m "`cat $TMP2|grep -v "^#"`" qnew $name
+		hg qnew -m "`cat $TMP2|grep -v "^#"`" $name
+		make whitespace
+		hg qrefresh
+	else
+		patch -s -t -p1 -l -N -d $pdir -i $next
+		make whitespace
+
+		if [ "$?" != "0" ]; then
+			echo "*** ERROR at: patch -s -t -p1 -l -N -d $pdir -i $next"
+			exit
+		fi
+		cur=`pwd`
+		cd $pdir
+		hg addremove `diffstat -p1 -l $next`
+		if [ "$?" != "0" ]; then
+			echo "*** ERROR at hg addremove"
+			exit
+		fi
+		# Commit the changed files
+		hg commit  -u "$committer" -m "`cat $TMP2|grep -v "^#"`" `diffstat -p1 -l $next`
+		if [ "$?" != "0" ]; then
+			echo "*** ERROR at hg commit"
+			cd $cur
+			exit
+		fi
+		cd $cur
+	fi
+	hg log -r -1 -v
+}
+
+echo git-mailsplit $MBOX $DIR
+echo -n "Number of patches at file: "
+git-mailsplit $MBOX $DIR
+echo
+
+for i in $DIR/*; do
+	cat $i| git-mailinfo $DIR/msg $DIR/patch>$DIR/author
+	cat $DIR/msg|grep -vi ^CC: >$DIR/msg2
+
+	cat $DIR/author|perl -ne "if (m/Author[:]\\s*(.*)\\n/) { \$auth=\$1; } else \
+		{ if (m/Email[:]\\s*(.*)\\n/) { print \"From: \$auth \<\$1\>\n\"; } else \
+		{ if (m/Subject[:]\\s*(.*)\\n/) { \
+		\$sub=\$1; \
+		\$sub=~ s;^(media|dvb|v4l|video|drivers|[-_/: \\t])*(.*);\$2;; \
+		print \"Subject: \$sub\\n\"; \
+		} else  \
+		{ print; } } \
+		}" >$DIR/author2
+
+	out=$DIR/patch.diff
+
+	cat $DIR/author2
+
+	echo "Signed-off-by: $CHANGE_LOG_NAME <$CHANGE_LOG_EMAIL_ADDRESS>" >>$DIR/msg2
+
+	echo "cat $DIR/author2 $DIR/msg2 $DIR/patch >$out"
+	cat $DIR/author2 $DIR/msg2 $DIR/patch >$out
+
+	apply_patch $out
+done

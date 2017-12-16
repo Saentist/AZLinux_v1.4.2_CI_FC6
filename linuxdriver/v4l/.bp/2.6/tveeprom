@@ -1,0 +1,2 @@
+srcdiff	tveeprom.h	include/media/tveeprom.h
+srcdiff	tveeprom.c	drivers/media/video/tveeprom.c

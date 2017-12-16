@@ -1,0 +1,206 @@
+Mauro Carvalho Chehab                                   2006 Mar 8
+
+This file describes the general procedures used by v4l-dvb developers
+who are responsible for maintaining V4L/DVB drivers. Some of these
+also applies to patch submitters.
+
+Current V4L/DVB tree uses a modern SCM system that fits better into 
+kernel development model, called Mercurial (aka hg).
+
+There are some tutorials, FAQs and other valuable informations at
+http://selenic.com/mercurial
+
+Mercurial is a distributed SCM, which means every developer gets his 
+own full copy of the repository (including the complete revision 
+history), and can work and commit locally without network connection. 
+The resulting changesets can then be exchanged between repositories and 
+finally published to the master repository in linuxtv.org. A list of
+current available repositories is available at: http://linuxtv.org/hg
+
+The master repository with stable patches is available at:
+http://linuxtv/org/hg/v4l-dvb
+
+Mercurial is organized with a master tag, called tip. This tag contains 
+the master repository that will be used by normal users and to generate 
+patches to kernel.
+
+This file postulates some simple rules for maintaing hg trees, as stated 
+below:
+
+1) It is strongly recommended that each developer be active at IRC 
+   channels (irc://irc.freenode.net) #v4l (for analog) and/or #linuxtv 
+   (for digital). It helps to have more discussions at major changes;
+
+2) Each developer may have one or more development trees, for his daily
+   work. It is recommended to have a tree called 'v4l-dvb' for each 
+   developer with their stable patches.
+
+3) After the patches are ready, developer should send an email to
+   v4l-dvb-maintainer list asking the maintainer to pull it from developer
+   repository, pushing it at master. The maintainer will analyse the patch
+   and publish at master hg if everything looks ok.
+
+4) Medium or major changes that needs modification on card coding, creating a 
+   new card type or requiring changes at core structs should be discussed first
+   at the Mailing Lists video4linux-list@redhat.com (analog/common parts)
+   and/or linux-dvb@linuxtv.org and at IRC to allow other contributors to
+   discuss about the way it will be included.
+
+5) Every developer should follow the "rules of thumb" of kernel development
+   stated at Linux source code, especially:
+
+	Documentation/SubmittingPatches
+	Documentation/SubmittingDrivers
+	Documentation/CodingStyle
+
+6) All commits should have a consistent message. On v4l-dvb, this is 
+   done by using:
+
+	make commit
+
+   This will run some scripts that will check changed files, generating 
+   a ChangeLog like comment (that will be removed from the commit) and 
+   prepare the last Signed-off-by field, as described below.
+
+7) Files can be added, removed or renamed at hg repository. This should 
+   be done by using:
+	hg add <files>
+	hg remove <files>
+	hg rename <source> <dest>
+	hg addremove [<files>]
+
+   *Warning* hg addremove will add/removes all files, including object 
+   files. Be careful! You can remove wrongly added files with hg remove.
+
+8) If the commit went wrong, hg allows you to undo the last commit, by 
+   using the command:
+
+	hg undo
+
+   This command will preserve the changes at the files. So, a new 
+   hg commit will redo the desired commit.
+
+9) To push the change to the repository you need to run:
+
+	hg push <url>
+
+10) To update from the master repository, it is needed to do:
+
+	make pull
+
+    After pulling from master, if there are some changes at local repository,
+    hg will require to merge it. This is done by
+	hg update -m
+	make commit
+
+11) For hg to work properly, these vars should be defined (replacing 
+    the names at the left):
+
+    HGUSER="Maintainer Name <maintainer-email@cvsmaintainersite.com>"
+
+    If you use a different login name at the repo, you may use:
+
+    CHANGE_LOG_LOGIN=my_log_name
+
+    You may also have it at ~/.hgrc, but, in this case, make commit will not
+    generate From: and Signed-off-by fields automatically.
+
+    Don't forget to export the vars, like:
+
+    export CHANGE_LOG_LOGIN HGUSER
+
+    It is strongly recommended to have these lines at .bashrc or .profile.
+
+12) All commit messages shall have a Developers Certificate of Origin
+    version 1.1 at commit log, as postulated at kernel's source at:
+
+	Documentation/SubmittingPatches
+
+    This is done by using Signed-off-by: fields at hg commit message.
+
+    It is not acceptable to use fake signatures like:
+
+	Signed-off-by: Fake me <me@snakeoilcompany.com>
+
+    The email should be a valid one.
+    The bottom signed-off-by should be the committer.
+ 
+13) Commit messages are very relevant, since they will be used 
+    when generating the patches for v4l-dvb.git and to mainstream.
+
+    The format of commit message shall be:
+
+    patch subject
+    From: Patch Developer <patchdeveloper@patchdevelopersite.com>
+
+    patch descriptions
+
+    Signed-off-by: Patch Developer <patchdeveloper@patchdevelopersite.com>
+    Signed-off-by: Cvs Maintainer <cvsmaintainer@cvsmaintainersite.com>
+
+    All lines starting with # will be removed by make commit stripts.
+
+    Subject should be a brief description of the patch. Please 
+    notice that, with hg, there's no need (and not desired) to define a 
+    Subject: tag. The *first* msg line will be used as subject, just like 
+    git.
+    *WARNING* Be careful not to leave the first line blank, otherwise hg
+    will leave subject in blank.
+
+    From: line shouldn't be suppressed, since it will be used when 
+    converting to -git as patch author.
+
+    You may add other signers, if the patch were tested /co-developed 
+    by somebody else and he also wants to sign. The committer 
+    signed-off-by should be the last one.
+
+14) If the patch also affects other parts of kernel (like alsa 
+    or i2c), it is required that, at upstream submitting, the patch 
+    also goes to the maintainers of that subsystem. To do this, CVS 
+    maintainer shall add one or more cc: fields to the commit message, 
+    after the subject:
+
+    CC: someotherkerneldeveloper@someplace
+
+    Please notice that this is manually handled by the -git maintainer, 
+    so unnecessary usage should be avoided.
+
+15) Sometimes, mainstream changes do affect v4l-dvb tree, and requires 
+    to apply some kernel patches at the tree. This kind of commit should 
+    follow the rules above and should also have a line like:
+
+    kernel-sync
+
+    Patches with such lines will not be submitted upstream.
+
+16) sometimes it is necessary to introduce some testing code inside a 
+    module or remove parts that are not yet finished. Also, compatibility 
+    tests may be required to provide backporting.
+
+    To allow compatibility tests, "compat.h" should be included first. 
+    It does include also linux/version.h.
+
+    To include testing code, #if 0 or #if 1 may be used. If this code 
+    is meant to go also to kernel, this struct should be used:
+
+    #if 0 /* keep */
+	or
+    #if 1 /* keep */
+
+17) Nested #ifs are allowed, but the #elif macro shouldn't be used, 
+    since the macro preprocessing script used to prepare kernel upstream 
+    patches (v4l/scripts/gentree.pl) is not able to handle it.
+
+18) To import contributed stuff, a script is provided at tree and allows easy
+    import of a mbox-based patch emails. This is done with:
+	./mailimport <mbox file>
+    For it to work properly, git tools need to be installed at local machine,
+    since git have a gitimport script that is used by mailimport.
+    Also, hg have a feature, called mqueue, that allows having several patches
+    that can be applied/unapplied for testing. mailimport trusts on it to work,
+    so, this extension should be enabled for mailimport script to work.
+
+Good Work!
+Mauro
+
+Mauro Carvalho Chehab <mchehab .at. linuxtv .dot. org>

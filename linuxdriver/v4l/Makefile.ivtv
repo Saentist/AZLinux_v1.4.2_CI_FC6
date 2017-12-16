@@ -1,0 +1,25 @@
+#
+# ivtv build rules
+#
+CONFIG_VIDEO_IVTV	:= $(if $(wildcard $(src)/ivtv-svnversion.h),m)
+CONFIG_VIDEO_CX88_IVTV	:= $(if $(wildcard $(src)/cx88-ivtv.c),m)
+
+ivtv-objs	:=	ivtv-driver.o ivtv-fileops.o ivtv-i2c.o \
+			ivtv-streams.o ivtv-firmware.o ivtv-reset.o \
+			ivtv-gpio.o ivtv-queue.o ivtv-irq.o ivtv-mailbox.o \
+			ivtv-vbi.o ivtv-kthreads.o ivtv-audio.o ivtv-ioctl.o \
+			ivtv-controls.o ivtv-video.o ivtv-cards.o ivtv-yuv.o
+ivtv-fb-objs	:=	ivtv-osd.o ivtv-queue.o
+
+obj-$(CONFIG_VIDEO_IVTV) += ivtv.o ivtv-fb.o
+obj-$(CONFIG_VIDEO_CX88_IVTV) += cx88-ivtv.o
+
+ivtv-install::
+	@echo -e "\nInstalling $(KDIR26)/video/ivtv files:"
+	@install -d $(KDIR26)/video/ivtv
+	@files='ivtv.ko ivtv-fb.ko cx88-ivtv.ko '; for i in $$files;do if [ -e $$i ]; then echo -n "$$i "; install -m 644 -c $$i $(KDIR26)/video/ivtv; fi; done; echo;
+	/sbin/depmod -a ${KERNELRELEASE}
+
+ivtv-rminstall::
+	@echo -e "\nRemoving old $(KDIR26)/video/ivtv files:"
+	@files='ivtv.ko ivtv-fb.ko cx88-ivtv.ko '; for i in $$files;do if [ -e $(KDIR26)/video/ivtv/$$i ]; then echo -n "$$i "; rm $(KDIR26)/video/ivtv/$$i; fi; done; for i in $$files;do if [ -e $(KDIR26)/video/ivtv/$$i.gz ]; then echo -n "$$i.gz "; rm $(KDIR26)/video/ivtv/$$i.gz; fi; done; echo;

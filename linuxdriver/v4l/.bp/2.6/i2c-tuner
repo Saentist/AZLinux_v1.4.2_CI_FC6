@@ -1,0 +1,8 @@
+srcdiff	tuner.h		include/media/tuner.h
+srcdiff	tuner-core.c	drivers/media/video/tuner-core.c
+srcdiff	tuner-simple.c	drivers/media/video/tuner-simple.c
+srcdiff	mt20xx.c	drivers/media/video/mt20xx.c
+srcdiff	tda8290.c	drivers/media/video/tda8290.c
+srcdiff	tda9887.c	drivers/media/video/tda9887.c
+srcdiff	tea5767.c	drivers/media/video/tea5767.c
+

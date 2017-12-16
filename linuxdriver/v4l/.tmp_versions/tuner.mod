@@ -1,0 +1,2 @@
+/root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tuner.ko
+/root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tuner-core.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tuner-types.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tuner-simple.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/mt20xx.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tda8290.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tea5767.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/tda9887.o

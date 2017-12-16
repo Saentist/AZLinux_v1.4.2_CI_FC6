@@ -1,0 +1,1 @@
+cmd_/root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/cx88xx.ko := ld -m elf_i386 -m elf_i386 -r -o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/cx88xx.ko /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/cx88xx.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/cx88xx.mod.o

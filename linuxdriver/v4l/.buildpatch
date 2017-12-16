@@ -1,0 +1,117 @@
+srcdiff	ir-kbd-i2c.c	drivers/media/video/ir-kbd-i2c.c
+srcdiff	ir-kbd-gpio.c	drivers/media/video/ir-kbd-gpio.c
+srcdiff	bt848.h		drivers/media/video/bt848.h
+srcdiff	bttv.h		drivers/media/video/bttv.h
+srcdiff	bttvp.h		drivers/media/video/bttvp.h
+srcdiff	bttv-driver.c	drivers/media/video/bttv-driver.c
+srcdiff	bttv-cards.c	drivers/media/video/bttv-cards.c
+srcdiff	bttv-if.c	drivers/media/video/bttv-if.c
+srcdiff	bttv-risc.c	drivers/media/video/bttv-risc.c
+srcdiff	bttv-vbi.c	drivers/media/video/bttv-vbi.c
+srcdiff	bttv-gpio.c	drivers/media/video/bttv-gpio.c
+srcdiff	bttv-i2c.c	drivers/media/video/bttv-i2c.c
+
+srcdiff	btcx-risc.h	drivers/media/video/btcx-risc.h
+srcdiff	btcx-risc.c	drivers/media/video/btcx-risc.c
+srcdiff cx88.h			drivers/media/video/cx88/cx88.h
+srcdiff cx88-reg.h		drivers/media/video/cx88/cx88-reg.h
+
+srcdiff cx88-cards.c		drivers/media/video/cx88/cx88-cards.c
+srcdiff cx88-core.c		drivers/media/video/cx88/cx88-core.c
+srcdiff cx88-i2c.c		drivers/media/video/cx88/cx88-i2c.c
+srcdiff cx88-tvaudio.c		drivers/media/video/cx88/cx88-tvaudio.c
+srcdiff cx88-video.c		drivers/media/video/cx88/cx88-video.c
+srcdiff cx88-vbi.c		drivers/media/video/cx88/cx88-vbi.c
+srcdiff cx88-input.c		drivers/media/video/cx88/cx88-input.c
+
+srcdiff cx88-mpeg.c		drivers/media/video/cx88/cx88-mpeg.c
+srcdiff cx88-dvb.c		drivers/media/video/cx88/cx88-dvb.c
+srcdiff cx88-blackbird.c	drivers/media/video/cx88/cx88-blackbird.c
+# It looks it is part of DVB stuff
+#srcdiff	dvb-pll.h	drivers/media/dvb/frontends/dvb-pll.h
+#srcdiff	dvb-pll.c	drivers/media/dvb/frontends/dvb-pll.c
+srcdiff	saa7134-dvb.c		drivers/media/video/saa7134/saa7134-dvb.c
+
+srcdiff saa6752hs.h		include/media/saa6752hs.h
+srcdiff saa6752hs.c		drivers/media/video/saa7134/saa6752hs.c
+srcdiff	bt832.c		drivers/media/video/bt832.c
+srcdiff	bt832.h		drivers/media/video/bt832.h
+srcdiff	ir-common.h	include/media/ir-common.h
+srcdiff	ir-common.c	drivers/media/common/ir-common.c
+srcdiff	audiochip.h	include/media/audiochip.h
+srcdiff	id.h		include/media/id.h
+srcdiff	msp3400.c	drivers/media/video/msp3400.c
+srcdiff	msp3400.h	drivers/media/video/msp3400.h
+srcdiff	tda7432.c	drivers/media/video/tda7432.c
+srcdiff	tda9875.c	drivers/media/video/tda9875.c
+srcdiff	tvaudio.h	drivers/media/video/tvaudio.h
+srcdiff	tvaudio.c	drivers/media/video/tvaudio.c
+srcdiff	tvmixer.c	drivers/media/video/tvmixer.c
+srcdiff	tuner.h		include/media/tuner.h
+srcdiff	tuner-core.c	drivers/media/video/tuner-core.c
+srcdiff	tuner-simple.c	drivers/media/video/tuner-simple.c
+srcdiff	mt20xx.c	drivers/media/video/mt20xx.c
+srcdiff	tda8290.c	drivers/media/video/tda8290.c
+srcdiff	tda9887.c	drivers/media/video/tda9887.c
+srcdiff	tea5767.c	drivers/media/video/tea5767.c
+
+srcdiff	saa7134.h		drivers/media/video/saa7134/saa7134.h
+srcdiff	saa7134-reg.h		drivers/media/video/saa7134/saa7134-reg.h
+
+srcdiff	saa7134-core.c		drivers/media/video/saa7134/saa7134-core.c
+srcdiff	saa7134-cards.c		drivers/media/video/saa7134/saa7134-cards.c
+srcdiff	saa7134-i2c.c		drivers/media/video/saa7134/saa7134-i2c.c
+srcdiff	saa7134-tvaudio.c	drivers/media/video/saa7134/saa7134-tvaudio.c
+srcdiff	saa7134-video.c		drivers/media/video/saa7134/saa7134-video.c
+srcdiff	saa7134-vbi.c		drivers/media/video/saa7134/saa7134-vbi.c
+srcdiff	saa7134-oss.c		drivers/media/video/saa7134/saa7134-oss.c
+srcdiff	saa7134-ts.c		drivers/media/video/saa7134/saa7134-ts.c
+srcdiff	saa7134-input.c		drivers/media/video/saa7134/saa7134-input.c
+
+srcdiff	saa7134-empress.c	drivers/media/video/saa7134/saa7134-empress.c
+
+# Already at dvb-saa7134
+# srcdiff saa7134-dvb.c		drivers/media/video/saa7134/saa7134-dvb.c
+# srcdiff saa6752hs.h		include/media/saa6752hs.h
+# srcdiff saa6752hs.c		drivers/media/video/saa7134/saa6752hs.c
+srcdiff	tveeprom.h	include/media/tveeprom.h
+srcdiff	tveeprom.c	drivers/media/video/tveeprom.c
+srcdiff	videodev.h	include/linux/videodev.h
+srcdiff	videodev2.h	include/linux/videodev2.h
+#srcdiff	videodev.c	drivers/media/video/videodev.c
+srcdiff	v4l1-compat.c	drivers/media/video/v4l1-compat.c
+srcdiff	v4l2-common.c	drivers/media/video/v4l2-common.c
+# bttv
+srcdiff	doc/README.bttv		Documentation/video4linux/bttv/README
+srcdiff	doc/insmod-options	Documentation/video4linux/bttv/Insmod-options
+srcdiff	doc/MAKEDEV		Documentation/video4linux/bttv/MAKEDEV
+srcdiff	doc/Sound-FAQ		Documentation/video4linux/bttv/Sound-FAQ
+srcdiff	doc/Tuners		Documentation/video4linux/bttv/Tuners
+srcdiff	doc/Cards		Documentation/video4linux/bttv/Cards
+
+# other
+srcdiff /dev/null               Documentation/video4linux/MAKEDEV
+srcdiff /dev/null               Documentation/video4linux/bttv/CARDLIST
+srcdiff doc/README.cx88		Documentation/video4linux/README.cx88
+srcdiff doc/README.saa7134	Documentation/video4linux/README.saa7134
+srcdiff doc/README.ir		Documentation/video4linux/README.ir
+srcdiff doc/not-in-cx2388x-datasheet.txt Documentation/video4linux/not-in-cx2388x-datasheet.txt
+
+# cardlists
+srcdiff	doc/CARDLIST.bttv	Documentation/video4linux/CARDLIST.bttv
+srcdiff	doc/CARDLIST.saa7134	Documentation/video4linux/CARDLIST.saa7134
+srcdiff	doc/CARDLIST.tuner	Documentation/video4linux/CARDLIST.tuner
+srcdiff	doc/CARDLIST.cx88	Documentation/video4linux/CARDLIST.cx88
+
+# API
+srcdiff doc/API.html		Documentation/video4linux/API.html
+
+# obsolete / fixme
+#srcdiff	doc/Specs		Documentation/video4linux/bttv/Specs
+#srcdiff	README.freeze		Documentation/video4linux/bttv/README.freeze
+#srcdiff	README.quirks		Documentation/video4linux/bttv/README.quirks
+#srcdiff	Modules.conf		Documentation/video4linux/bttv/Modules.conf
+srcdiff	video-buf.h		include/media/video-buf.h
+srcdiff	video-buf-dvb.h		include/media/video-buf-dvb.h
+srcdiff	video-buf.c		drivers/media/video/video-buf.c
+srcdiff	video-buf-dvb.c		drivers/media/video/video-buf-dvb.c

@@ -1,0 +1,1 @@
+cmd_/root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/mantis_ci.ko := ld -m elf_i386 -m elf_i386 -r -o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/mantis_ci.ko /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/mantis_ci.o /root/AZLinux_v1.4.2_CI_full_src/linuxdriver/v4l/mantis_ci.mod.o

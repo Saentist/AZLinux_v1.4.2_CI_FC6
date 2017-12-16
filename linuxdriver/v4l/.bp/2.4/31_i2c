@@ -1,0 +1,10 @@
+srcdiff	audiochip.h	drivers/media/video/audiochip.h
+srcdiff	id.h		drivers/media/video/id.h
+srcdiff	msp3400.c	drivers/media/video/msp3400.c
+srcdiff	msp3400.h	drivers/media/video/msp3400.h
+srcdiff	tda7432.c	drivers/media/video/tda7432.c
+srcdiff	tda9875.c	drivers/media/video/tda9875.c
+srcdiff	tda9887.c	drivers/media/video/tda9887.c
+srcdiff	tvaudio.h	drivers/media/video/tvaudio.h
+srcdiff	tvaudio.c	drivers/media/video/tvaudio.c
+srcdiff	tvmixer.c	drivers/media/video/tvmixer.c

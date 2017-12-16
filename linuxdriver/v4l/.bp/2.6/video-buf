@@ -1,0 +1,4 @@
+srcdiff	video-buf.h		include/media/video-buf.h
+srcdiff	video-buf-dvb.h		include/media/video-buf-dvb.h
+srcdiff	video-buf.c		drivers/media/video/video-buf.c
+srcdiff	video-buf-dvb.c		drivers/media/video/video-buf-dvb.c

@@ -1,0 +1,5 @@
+srcdiff	videodev.h	include/linux/videodev.h
+srcdiff	videodev2.h	include/linux/videodev2.h
+#srcdiff	videodev.c	drivers/media/video/videodev.c
+srcdiff	v4l1-compat.c	drivers/media/video/v4l1-compat.c
+srcdiff	v4l2-common.c	drivers/media/video/v4l2-common.c

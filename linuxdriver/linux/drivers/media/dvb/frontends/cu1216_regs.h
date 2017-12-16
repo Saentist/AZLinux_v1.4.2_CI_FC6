@@ -1,0 +1,440 @@
+#ifndef __CU1216_REGS_H
+#define __CU1216_REGS_H
+
+#define XIN 57840000UL
+
+#define DISABLE_INVERSION(reg0)		do { reg0 |= 0x20; } while (0)
+#define ENABLE_INVERSION(reg0)		do { reg0 &= ~0x20; } while (0)
+#define HAS_INVERSION(reg0)		(!(reg0 & 0x20))
+
+#define FIN				(XIN >> 4)
+
+#define MK1     0x7c
+#define MK3     0x7d
+////////////////////
+#define C_1216_CHIP_ADDRESS		0x18
+#define C_1216_TUNER_ADDRESS		0xc0
+
+
+#define OM5734_XTALFREQ_DEF		28920000
+#define OM5734_PLLMFACTOR_DEF		0x07
+#define OM5734_PLLNFACTOR_DEF		0x00
+#define OM5734_PLLPFACTOR_DEF		0x03
+
+#define CU1216_PLLMFACTOR_DVB_DEF  0x07   // ins Dirty was 0x07
+#define CU1216_PLLNFACTOR_DVB_DEF  0x00  //ins Dirty was 0x00
+#define CU1216_PLLPFACTOR_DVB_DEF  0x03 //ins Dirty was 0x03
+#define CU1216_XTALL_FREQ_28	   28920000
+
+#define AC_POLAPWM1_DEF			0
+#define AC_POLAPWM2_DEF			0
+#define AC_IFMAX_DEF			255
+#define OM5735_IFMIN_DEF		64
+#define OM5734_IFMIN_DEF		88
+#define AC_TUNMAX_DEF			255
+#define AC_TUNMIN_DEF			0
+#define AC_IFMIN_DEF150			150
+
+
+#define AC_EQUALTYPE_DEF		2
+#define AC_BERDEPTH_DEF			2
+#define AC_CAROFFSTEP_DEF		1
+#define AC_CAROFFLENGTH_DEF		1
+#define AC_CARRANGE_DEF			1
+#define AC_DISAFC_DEF			0
+
+#define AC_IQSWAPPED_DEF		1
+#define AC_TUNID_DEF			0
+#define AC_TUNREADENA_DEF		0
+#define AC_TUNFI_DEF			36125000
+
+#define AC_POCLK1_DEF			1
+#define AC_PARASER1_DEF			0
+#define AC_MSBFIRST1_DEF		0
+#define AC_MODEAB1_DEF			0
+#define AC_PARADIV1_DEF			0
+#define AC_POCLK2_DEF			1
+#define AC_PARASER2_DEF			0
+
+#define OM5734_DEF			0
+#define OM5735_DEF			1
+#define CUSTOM_DEF			2
+
+/*
+Definition the index of regiester
+*********************************************************************************
+*/
+#define AC_CONF_IND			0x00
+#define AC_AGCREF_IND			0x01
+#define AC_AGCCONF1_IND			0x02
+#define AC_CLKCONF_IND			0x03
+#define AC_CARCONF_IND			0x04
+#define AC_LOCKTHR_IND			0x05
+#define AC_EQCONF1_IND			0x06
+#define AC_EQSTEP_IND			0X07
+#define AC_MSETH_IND			0x08
+#define AC_AREF_IND			0x09
+#define AC_BDRLSB_IND			0x0A
+#define AC_BDRMID_IND			0x0B
+#define AC_BDRMSB_IND			0x0C
+#define AC_BDRINV_IND			0x0D
+#define AC_GAIN_IND			0x0E
+#define AC_TEST_IND			0x0F
+#define AC_RSCONF_IND			0x10
+#define AC_SYNC_IND			0x11
+#define AC_POLA1_IND			0x12
+#define AC_CPTUNCOR_IND			0x13
+#define AC_BERLSB_IND			0x14
+#define AC_BERMID_IND			0x15
+#define AC_BERMSB_IND			0x16
+#define AC_VAGC1_IND			0x17
+#define AC_MSE_IND			0x18
+#define AC_VAFC_IND			0x19
+#define AC_IDENTITY_IND			0x1A
+#define AC_ADC_IND			0x1B
+#define AC_EQCONF2_IND			0x1C
+#define AC_CKOFFSET_IND			0x1D
+
+//#define AC_CONTROL
+#define AC_RESET_IND            0x1f
+
+#define AC_INTP_IND			0x20
+#define AC_SATNYQ_IND			0x21
+#define AC_SATADC_IND			0x22
+#define AC_HALFADC_IND			0x23
+#define AC_SATDEC1_IND			0x24
+#define AC_SATDEC2_IND			0x25
+#define AC_SATDEC3_IND			0x26
+#define AC_SATAAF_IND			0x27
+#define AC_MDIV_IND			0x28
+#define AC_NDIV_IND			0x29
+#define AC_PLL_IND			0x2A
+#define AC_POLA2_IND			0x2B
+#define AC_CONTROL_IND			0x2C
+#define AC_SWEEP_IND			0x2D
+#define AC_AGCCONF2_IND			0x2E
+#define AC_VAGC2_IND			0x2F
+#define AC_SATTHR_IND			0x30
+#define AC_HALFTHR_IND			0x31
+#define AC_ITSEL_IND			0x32
+#define AC_ITSTAT_IND			0x33
+#define AC_PWMREF_IND			0x34
+#define AC_TUNMAX_IND			0x35
+#define AC_TUNMIN_IND			0x36
+#define AC_DELTAF1_IND			0x37
+#define AC_DELTAF2_IND			0x38
+#define AC_CONSTI_IND			0x39
+#define AC_CONSTQ_IND			0x3A
+#define AC_IFMAX_IND			0x3B
+#define AC_IFMIN_IND			0x3C
+
+#define AC_REQCO_IND			0x40
+#define AC_REQCO_CENTRALCOEF_IND	0x50
+
+#define AC_IEQCO_IND			0x80
+#define AC_IEQCO_CENTRALCOEF_IND	0x90
+/****add *****/
+#define TDA10023_REQCO_IND              0x40
+#define TDA10023_REQCO_CENTRALCOEF_IND  0x50
+
+#define TDA10023_CPT_TSP_UNCOR1_IND     0x74
+#define TDA10023_CPT_TSP_UNCOR2_IND     0x75
+#define TDA10023_CPT_TSP_UNCOR3_IND     0x76
+#define TDA10023_CPT_TSP_UNCOR4_IND     0x77
+#define TDA10023_CPT_TSP_COR1_IND       0x78
+#define TDA10023_CPT_TSP_COR2_IND       0x79
+#define TDA10023_CPT_TSP_COR3_IND       0x7A
+#define TDA10023_CPT_TSP_COR4_IND       0x7B
+#define TDA10023_CPT_TSP_OK1_IND        0x7C
+#define TDA10023_CPT_TSP_OK2_IND        0x7D
+#define TDA10023_CPT_TSP_OK3_IND        0x7E
+#define TDA10023_CPT_TSP_OK4_IND        0x7F
+
+#define TDA10023_IEQCO_IND              0x80
+#define TDA10023_IEQCO_CENTRALCOEF_IND  0x90
+
+#define TDA10023_AGCREFNYQ_IND          0xB4
+#define TDA10023_ERAGC_THD_IND          0xB5
+#define TDA10023_ERAGCNYQ_THD_IND       0xB6
+#define TDA10023_SCIN_THDL_IND          0xB7
+#define TDA10023_SCIN_THDH_IND          0xB8
+#define TDA10023_SCIN_CPTL_IND          0xB9
+#define TDA10023_SCIN_CPTH_IND          0xBA
+#define TDA10023_SCIN_CPT_IND           0xBB
+#define TDA10023_SCIN_NBTSAT_IND        0xBC
+#define TDA10023_SATDEC0_IND            0xBD
+#define TDA10023_INVQ_AGC_IND           0xBE
+#define TDA10023_BW_AGC_IND             0xBF
+#define TDA10023_XTAL_PLL4_IND          0xC0
+#define TDA10023_PLL5_IND               0xC1
+#define TDA10023_CLBSTIM_I2CSWTCH_IND   0xC2
+#define TDA10023_TIMING_SCAN_IND        0xC3
+#define TDA10023_TIMING_PPM_IND         0xC4
+#define TDA10023_TIMING_PARA1_IND       0xC5
+#define TDA10023_TIMING_PARA2_IND       0xC6
+#define TDA10023_TIMING_STATUS_IND      0xC7
+#define TDA10023_CPT_TRANS_IND          0xC8
+#define TDA10023_PERCENTAGE_IND         0xC9
+#define TDA10023_ERTIM_THD_IND          0xCA
+#define TDA10023_DSP_IND                0xCB
+#define TDA10023_POWER1_IND             0xCC
+#define TDA10023_POWER2_IND             0xCD
+#define TDA10023_POWER3_IND             0xCE
+
+#define TDA10023_CTRL1_IND              0xD0
+#define TDA10023_CTRL2_IND              0xD1
+#define TDA10023_TRELDAT_IND            0xD2
+#define TDA10023_TRELCOR_IND            0xD3
+#define TDA10023_FECSYNC_IND            0xD4
+#define TDA10023_DRNDSD1_IND            0xD5
+#define TDA10023_DRNDSD2_IND            0xD6
+#define TDA10023_DRNDSD3_IND            0xD7
+#define TDA10023_CPT_RSB_UNCOR1_IND     0xD8
+#define TDA10023_CPT_RSB_UNCOR2_IND     0xD9
+#define TDA10023_CPT_RSB_UNCOR3_IND     0xDA
+#define TDA10023_CPT_RSB_UNCOR4_IND     0xDB
+#define TDA10023_FECRSYNC_IND           0xDC
+#define TDA10023_DEINTRLV_IND           0xDD
+
+#define TDA10023_STATUS_MCNS_IND        0xE0
+#define TDA10023_VITERBI_LOCK_IND       0xE1
+#define TDA10023_RSUNCORLO_IND          0xE2
+#define TDA10023_RSUNCORHI_IND          0xE3
+#define TDA10023_RSBERLO_IND            0xE4
+#define TDA10023_RSBERHI_IND            0xE5
+#define TDA10023_RSCFG_IND              0xE6
+#define TDA10023_CPT_RSB_COR1_IND       0xE7
+#define TDA10023_CPT_RSB_COR2_IND       0xE8
+#define TDA10023_CPT_RSB_COR3_IND       0xE9
+#define TDA10023_CPT_RSB_COR4_IND       0xEA
+#define TDA10023_CPT_RSB_OK1_IND        0xEB
+#define TDA10023_CPT_RSB_OK2_IND        0xEC
+#define TDA10023_CPT_RSB_OK3_IND        0xED
+#define TDA10023_CPT_RSB_OK4_IND        0xEE
+
+#define TDA10023_EMPTY_FECMCNS_IND      0xFA
+#define TDA10023_EMPTY1_TOP_IND         0xFB
+#define TDA10023_EMPTY2_TOP_IND         0xFC
+#define TDA10023_EMPTY_DEMOD_IND        0xFD
+#define TDA10023_EMPTY_FEC_DVB_IND      0xFE
+
+
+
+/*********************/
+/*  DEFAULT VALUES   */
+/*********************/
+#define AC_ADC_SW_DEF			0x30
+#define AC_CARCONFHIGHSR_DEF		0x02
+#define AC_CARCONFLOWSR_DEF		0x0A
+#define AC_CARCONFVERYLOWSR_DEF		0x05
+#define AC_CARCONFALGO_DEF		0x0C
+#define AC_PWMREF_DEF			0x80
+#define AC_INTP_DEF			0x00
+#define AC_SWEEP_DEF			0x80
+
+
+/*********************/
+/*  DEFINE VALUES    */
+/*********************/
+#define AC_NOSI_VAL			0
+#define AC_YESSI_VAL			1
+#define AC_AUTOSI_VAL			2
+
+#define AC_PHILIPS_VAL			0
+#define AC_PHILIPSLHI_VAL		1
+#define AC_SONY_VAL			2
+#define AC_NOTUNER_VAL			3
+
+#define AC_16QAM_VAL			0
+#define AC_32QAM_VAL			1
+#define AC_64QAM_VAL			2
+#define AC_128QAM_VAL			3
+#define AC_256QAM_VAL			4
+#define AC_4QAM_VAL			5
+
+//#define AC_AUTOQAM_VAL	6   the philips value
+#define AC_AUTOQAM_VAL 2
+#define AC_FREF_VAL62500		62500L
+#define AC_FREF_VAL			78125
+
+#define AC_PHILIPSLOW_VAL		0xA1
+#define AC_PHILIPSMID_VAL		0x92
+#define AC_PHILIPSHIGH_VAL		0x34
+
+#define AC_PHILIPSLHILOW_VAL		0x06
+#define AC_PHILIPSLHIMID_VAL		0x05
+#define AC_PHILIPSLHIHIGH_VAL		0x03
+
+#define AC_VHF1_SONY_VAL		0x01
+#define AC_VHF3_SONY_VAL		0x02
+#define AC_UHF_SONY_VAL			0x04
+
+#define AC_BER_DEPTH5_VAL		0x00
+#define AC_BER_DEPTH6_VAL		0x40
+#define AC_BER_DEPTH7_VAL		0x80
+#define AC_BER_DEPTH8_VAL		0xC0
+
+#define AC_VERYFASTAGCCONV_VAL		0
+#define AC_FASTAGCCONV_VAL		1
+#define AC_MIDAGCCONV_VAL		2
+#define AC_SLOWAGCCONV_VAL		3
+
+#define AC_ALGOAGCTIMER_VAL		100000
+#define AC_ALGOGAINTIMER_VAL		10000
+#define AC_ALGOSITIMER_VAL		30000
+#define AC_ALGOLOCKTIMER_VAL		200000
+#define AC_ALGOLOCKCARRIER_VAL		265533	// 2*SWDYN/SWSTEP*SWLENGTH
+
+#define AC_COEFTRESHOLD_VAL		490000 //562500
+
+#define AC_ALGOGAINMAX_VAL		5
+#define AC_ALGOGAINMIN_VAL		0
+#define AC_ALGOGAINSCANMIN_VAL		0
+#define AC_ALGOGAINSCANMID_VAL		2
+#define AC_ALGOGAINSCANMAX_VAL		4
+
+#define AC_DVB_ROLLOFF_VAL		115
+#define AC_SCANSTEP_VAL			47
+#define AC_FREQSTEP_VAL			62
+
+
+/*******************/
+/*  DEFINE MASKS   */
+/*******************/
+#define AC_EQCONF1_POSI_MSK		0x70
+#define AC_EQCONF1_ENEQUAL_MSK		0x02
+#define AC_ADC_SW_MSK			0x30
+#define AC_GAIN_SFIL_MSK		0x10
+#define AC_CLKCONF_NDEC_MSK		0xC0
+#define AC_CARCONF_MSK			0x3F
+#define AC_CONF_QAM_MSK			0x1C
+#define AC_RSCONF_PVBER_MSK		0xC0
+#define AC_CPTUNCOR_CPTU_MSK		0x7F
+#define AC_GAIN_GNYQ_MSK		0xE0
+#define AC_AGCCONF1_KAGC_MSK		0x03
+#define AC_GAIN_SSAT_MSK		0x03
+#define AC_SYNC_BER_MSK			0x30
+#define AC_DEMODSTAT_FEL_MSK		0x08
+#define AC_DEMODSTAT_UNCOR_MSK		0x80
+//add 10-13
+#define TDA10023_CARCONF_INVIQ_BIT      0x20
+#define TDA10023_CARCONF_AUTOINVIQ_BIT  0x40
+
+#define TDA10023_GPR_CLBS_BIT           0x01
+#define TDA10023_GPR_CLBS2_BIT          0x02
+#define TDA10023_GPR_FSAMPLING_BIT      0x20
+#define TDA10023_GPR_FIRSTIF_BIT        0x40
+#define TDA10023_GPR_STDBY_BIT          0x80
+
+#define TDA10023_PLL2_PDIV_MSK          0x3F
+#define TDA10023_PLL2_NDIV_MSK          0xC0
+//---------------
+//  DEFINE BITS  
+//---------------
+#define TDA10023_GPR_CLBS_BIT           0x01
+#define TDA10023_GPR_CLBS2_BIT          0x02
+#define TDA10023_GPR_FSAMPLING_BIT      0x20
+#define TDA10023_GPR_FIRSTIF_BIT        0x40
+#define TDA10023_GPR_STDBY_BIT          0x80
+
+#define TDA10023_CLKCONF_DYN_BIT        0x08
+
+#define TDA10023_CARCONF_INVIQ_BIT      0x20
+#define TDA10023_CARCONF_AUTOINVIQ_BIT  0x40
+
+#define TDA10023_EQCONF1_ENEQUAL_BIT    0x02
+#define TDA10023_EQCONF1_ENADAPT_BIT    0x04
+
+#define TDA10023_TEST_BYPIIC_BIT        0x80
+
+#define TDA10023_FECDVBCFG1_CLB_CPT_TSP_BIT 0x20
+
+#define TDA10023_STATUS_CARLOCK_BIT     0x02
+#define TDA10023_STATUS_FSYNC_BIT       0x04
+#define TDA10023_STATUS_FEL_BIT         0x08
+#define TDA10023_STATUS_NODVB_BIT       0x40
+
+#define TDA10023_INTP1_POCLKP_BIT       0x01
+
+#define TDA10023_ADC_GAINADC_BIT        0x20
+#define TDA10023_ADC_TWOS_BIT           0x08
+
+#define TDA10023_EQCONF2_SGNALGO_BIT    0x20
+#define TDA10023_EQCONF2_STEPALGO_BIT   0x10
+#define TDA10023_EQCONF2_CTADAPT_BIT    0x08
+
+#define TDA10023_CONTROL_OLDBYTECLK_BIT 0x80
+#define TDA10023_CONTROL_SACLK_ON_BIT   0x04
+
+#define TDA10023_RESET_DVBMCNS_BIT      0x80
+
+#define TDA10023_INTP2_MSBFIRSTP_BIT    0x04
+
+#define TDA10023_PLL3_PDPLL_BIT         0x01
+#define TDA10023_PLL3_BYPPLL_BIT        0x02
+#define TDA10023_PLL3_LOCK_BIT          0x04
+#define TDA10023_PLL3_PSACLK_BIT        0x08
+
+#define TDA10023_INTS1_POCLKS_BIT       0x01
+
+#define TDA10023_INTPS_TRIS_BIT         0x01
+#define TDA10023_INTPS_TRIP_BIT         0x02
+#define TDA10023_INTPS_MSBFIRSTS_BIT    0x40
+
+#define TDA10023_AGCCONF2_PPWMIF_BIT    0x02
+#define TDA10023_AGCCONF2_PPWMTUN_BIT   0x08
+#define TDA10023_AGCCONF2_ENAGCIF_BIT   0x10
+#define TDA10023_AGCCONF2_POSAGC_BIT    0x20
+#define TDA10023_AGCCONF2_TRIAGC_BIT    0x80
+
+#define TDA10023_DELTAF_MSB_ALGOD_BIT   0x80
+
+#define TDA10023_CTRL1_QAMMODE_BIT      0x02
+
+#define TDA10023_STATUS_MCNS_MPEGLCK_BIT    0x04
+#define TDA10023_STATUS_MCNS_FRAMELCK_BIT   0x02
+
+#define TDA10023_RSCFG_CLB_CPT_RSB_BIT  0x01
+
+/******************/
+/*  DEFINE BITS   */
+/******************/
+#define AC_CONF_CLB_BIT			0x01
+#define AC_AGCCONF1_POSAGC_BIT		0x20
+#define AC_AGCCONF2_ENAGC2_BIT		0x08
+#define AC_ADC_PCLK_BIT			0x01
+#define AC_TEST_BYPIIC_BIT		0x80
+#define AC_EQCONF_ENEQUAL_BIT		0x02
+#define AC_CONF_INVIQ_BIT		0x20
+#define AC_RSCONF_CLBUNC_BIT		0x20
+#define AC_CLKCONF_DYN_BIT		0x08
+#define AC_SYNC_NODVB_BIT		0x40
+#define AC_CLKCONF_GAIN3_BIT		0x10
+#define AC_AGCCONF1_PPWM1_BIT		0x04
+#define AC_AGCCONF2_PPWM2_BIT		0x02
+#define AC_PLL_BYPPLL_BIT		0x10
+#define AC_POLA1_POCLK1_BIT		0x01
+#define AC_POLA2_POCLK2_BIT		0x01
+#define AC_POLA2_MSBFIRST2_BIT		0x40
+#define AC_EQCONF1_DFE_BIT		0x01
+#define AC_EQCONF1_ENEQUAL_BIT		0x02
+#define AC_EQCONF2_SGNALGO_BIT		0x20
+#define AC_EQCONF2_CTADAPT_BIT		0x08
+#define AC_DELTAF2_ALGOD_BIT		0x04
+#define AC_INTP_INTSEL_BIT		0x01
+#define AC_INTP_MSBFIRST_BIT		0x02
+#define AC_INTP_PARMOD_BIT		0x08
+#define AC_EQCONF1_ENADAPT_BIT		0x04
+#define AC_SYNC_CARLOCK_BIT		0x02
+#define AC_SYNC_FSYNC_BIT		0x04
+#define AC_SYNC_FEL_BIT			0x08
+
+/*************************/
+/*  DEFINE RETURN VALUES */
+/*************************/
+#define AC_SUCCESS_RET			0
+#define AC_FAILED_RET			1
+#define AC_NOT_FINISHED_RET		2
+#define AC_NO_ERROR_RET			0
+
+#endif //__CU1216_REGS_H

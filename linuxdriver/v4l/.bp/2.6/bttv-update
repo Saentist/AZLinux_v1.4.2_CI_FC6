@@ -1,0 +1,13 @@
+srcdiff	bt848.h		drivers/media/video/bt848.h
+srcdiff	bttv.h		drivers/media/video/bttv.h
+srcdiff	bttvp.h		drivers/media/video/bttvp.h
+srcdiff	bttv-driver.c	drivers/media/video/bttv-driver.c
+srcdiff	bttv-cards.c	drivers/media/video/bttv-cards.c
+srcdiff	bttv-if.c	drivers/media/video/bttv-if.c
+srcdiff	bttv-risc.c	drivers/media/video/bttv-risc.c
+srcdiff	bttv-vbi.c	drivers/media/video/bttv-vbi.c
+srcdiff	bttv-gpio.c	drivers/media/video/bttv-gpio.c
+srcdiff	bttv-i2c.c	drivers/media/video/bttv-i2c.c
+
+srcdiff	btcx-risc.h	drivers/media/video/btcx-risc.h
+srcdiff	btcx-risc.c	drivers/media/video/btcx-risc.c

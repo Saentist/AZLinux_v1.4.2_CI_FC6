@@ -1,0 +1,266 @@
+#!/usr/bin/perl
+use strict;
+
+my $SRC = shift;
+my $LINUX = shift;
+my $CONF = shift;
+
+$SRC   = "."			if !defined($SRC);
+$LINUX = "/usr/src/linux"	if !defined($LINUX);
+$CONF  = "$SRC/.buildpatch"	if !defined($CONF);
+
+my ($VERSION,$CODE) = &kernel_version;
+my $DEBUG = 0;
+
+
+#################################################################
+# helpers
+
+sub readfile ($) {
+	my ($filename) = @_;
+	my $file;
+
+	open FILE, "<$filename" or
+		die "can't open file $filename: $!";
+	{ local $/; undef $/; $file = <FILE> }
+	close FILE;
+	return $file;
+}
+
+sub kernel_version() {
+	my $makefile = readfile("$LINUX/Makefile");
+	my (@ver,$ver,$code);
+
+	@ver = (); $code = 0;
+	foreach my $name ("VERSION", "PATCHLEVEL", "SUBLEVEL") {
+		$makefile =~ /$name = (\d+)/ or die;
+		$code = $code * 256 + $1;
+		push @ver,$1;
+	}
+	$ver = join(".",@ver);
+	$makefile =~ /EXTRAVERSION = (\S+)/ and $ver .= "$1";
+	return ($ver,$code);
+}
+
+
+#################################################################
+# filter out version-specific code
+
+sub filter_source ($$) {
+	my ($in,$out) = @_;
+	my ($line,$if,$state,$mmkernel);
+
+	if (-e $LINUX . "/.mm") {
+		$mmkernel = 1;
+	} else {
+		$mmkernel = 0;
+	}
+
+	open IN,  "<$in";
+	open OUT, ">$out";
+
+	while ($line = <IN>) {
+		die "nested" if defined($state) && $line =~ /^#if/;
+		if ($line =~ m/^#include <linux\/version.h>/ &&
+		    $in   =~ m/.*\.c/) {
+			next;
+		}
+		if ($line =~ m/^#include \"compat.h\"/) {
+			next;
+		}
+		if ($line =~ m/[\$]Id:.*/) {
+			next;
+		}
+		if ($line =~ /^#ifdef MM_KERNEL/) {
+			chomp($line);
+			$state = "if";
+			$if = $mmkernel;
+			print OUT "/* BP #if $if ($line) */\n" if $DEBUG;
+			next;
+		}
+		if ($line =~ /^#if 0/) {
+			chomp($line);
+			$state = "if";
+			$if = 0;
+			print OUT "/* BP #if $if ($line) */\n" if $DEBUG;
+			next;
+		}
+		if ($line =~ /^#if 1 .*KEEP.*/) {
+			print OUT "#if 1\n";
+			next;
+		}
+		if ($line =~ /^#if 1/) {
+			chomp($line);
+			$state = "if";
+			$if = 1;
+			print OUT "/* BP #if $if ($line) */\n" if $DEBUG;
+			next;
+		}
+		if ($line =~ /^#if.*BTTV_VERSION_CODE/) {
+			chomp($line);
+			$state = "if";
+			$line =~ s@^#if\s*@@;
+			$line =~ s@BTTV_VERSION_CODE@\$CODE@;
+			$line =~ s@KERNEL_VERSION\((\d+),\s*(\d+),\s*(\d+)\)@
+					sprintf("%d",$1*65536 + $2*256 + $3) @e;
+			$if = eval $line;
+			print OUT "/* BP #if $if ($line) */\n" if $DEBUG;
+			next;
+		}
+		if ($line =~ /^#if.*LINUX_VERSION_CODE/) {
+			chomp($line);
+			$line =~ s@^#if\s*@@;
+			$line =~ s@LINUX_VERSION_CODE@\$CODE@;
+			$line =~ s@KERNEL_VERSION\((\d+),\s*(\d+),\s*(\d+)\)@
+					sprintf("%d",$1*65536 + $2*256 + $3) @e;
+			$if = eval $line;
+			$state = "if";
+			print OUT "/* BP #if $if ($line) */\n" if $DEBUG;
+			next;
+		}
+		if (defined($state) && $line =~ /^#else/) {
+			$state = "else";
+			print OUT "/* BP #else */\n" if $DEBUG;
+			next;
+		}
+		if (defined($state) && $line =~ /^#endif/) {
+			undef $state;
+			print OUT "/* BP #endif */\n" if $DEBUG;
+			next;
+		}
+		if (!defined($state)		||
+		    $state eq "if"   && $if	||
+		    $state eq "else" && !$if) {
+			print OUT $line;
+		} else {
+			chomp($line);
+			print OUT "/* BP DEL $line */\n" if $DEBUG;
+		}
+	}
+	close IN;
+	close OUT;
+}
+
+sub filter_dest ($$) {
+	my ($in,$out) = @_;
+	my ($line,$if,$state,$mmkernel);
+
+	if (-e $LINUX . "/.mm") {
+		$mmkernel = 1;
+	} else {
+		$mmkernel = 0;
+	}
+
+	open IN,  "<$in";
+	open OUT, ">$out";
+
+	while ($line = <IN>) {
+		if ($line =~ m/[\$]Id:.*/) {
+			next;
+		}
+		print OUT $line;
+	}
+	close IN;
+	close OUT;
+}
+
+
+#################################################################
+# build diffs
+
+sub makediff ($$) {
+	my ($here,$kernel) = @_;
+	my ($line1,$line2,$file1,$file2);
+	my $tmp = "/tmp/src.$$";
+	my $tmp2 = "/tmp/dst.$$";
+
+	filter_source("../linux/$here","$tmp");
+
+	if (-f "$LINUX/$kernel") {
+		filter_dest("$LINUX/$kernel","$tmp2");
+		open DIFF, "diff -up $tmp2 $tmp|";
+	} else {
+		# new file
+		open DIFF, "diff -up /dev/null $tmp|";
+	}
+
+	# header
+	$line1 =  <DIFF>;
+	$line1 =~ s@$LINUX@linux-$VERSION@;
+	$line1 =~ s@/dev/null@linux-$VERSION/$kernel@;
+	$file1 = $1 if $line1 =~ m/^\-\-\- (\S+)/;
+	$line2 =  <DIFF>;
+	$line2 =~ s@$tmp@linux/$kernel@;
+	$file2 = $1 if $line2 =~ m/^\+\+\+ (\S+)/;
+	print "diff -u $file1 $file2\n"
+		if defined($file1) && defined($file2);
+	print $line1;
+	print $line2;
+
+	# body
+	{ local $/; undef $/; my $diff = <DIFF>; print $diff; }
+	close DIFF;
+
+	unlink $tmp;
+}
+
+sub delfile ($) {
+	my ($kernel) = @_;
+	my ($line);
+
+	return unless -f "$LINUX/$kernel";
+	open DIFF, "diff -u $LINUX/$kernel /dev/null|";
+
+	# header
+	$line =  <DIFF>;
+	$line =~ s@$LINUX@linux-$VERSION@;
+	print $line;
+	$line =  <DIFF>;
+	$line =~ s@/dev/null@linux/$kernel@;
+	print $line;
+
+	# body
+	{ local $/; undef $/; $line = <DIFF>; print $line; }
+	close DIFF;
+}
+
+
+#################################################################
+# main
+
+my $patchtmploc = "/tmp/temp.patch";
+open(PATCHTMP, ">", $patchtmploc) || die("can't open tempfile: $!");
+select(PATCHTMP);
+
+printf STDERR <<EOF,$CODE;
+kernel in $LINUX is $VERSION (0x%x)
+EOF
+
+open CONFIG,"$CONF" or
+	die "can't open file $CONF: $!";
+while (my $line = <CONFIG>) {
+	$line =~ s/#.*//;		# kill comments
+	next if $line =~ /^\s*$/;	# empty line
+
+	if ($line =~ /srcdiff\s+(\S+)\s+(\S+)/) {
+		print STDERR "srcdiff $2\n";
+		makediff($2,$2);
+
+	} elsif ($line =~ /delete\s+(\S+)/) {
+		print STDERR "delete  $1\n";
+		delfile($1);
+
+	} else {
+		die "Huh?: $line";
+
+	}
+}
+
+close(PATCHTMP);
+select(STDOUT);
+
+if (-s "$patchtmploc") {
+	system "diffstat -p0 -w72 $patchtmploc";
+	print "\n",readfile($patchtmploc);
+	unlink $patchtmploc;
+}

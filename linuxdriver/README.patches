@@ -1,0 +1,58 @@
+Mauro Carvalho Chehab					2005 Dec 02
+
+	The master copy of the video4linux and dvb kernel subsystem is now 
+maintained jointly at http://linuxtv.org/
+
+=== v4l-dvb snapshots available at linuxtv.org
+
+	We are now publishing periodic snapshots (about once a month or 
+before rellevant changes) at linuxtv.org. The main idea is to have 
+"stable" snapshots on Linuxtv. You can check it at:
+
+http://linuxtv.org/downloads/snapshots
+
+=== v4l-dvb quilt available at linuxtv.org
+
+	It is also available patches against latest development kernel at: 
+http://linuxtv.org/downloads/quilt
+
+	patches/series shows the correct order to apply.
+
+== Getting the latest Snapshot
+
+	You must have mercurial installed in order to access the 
+repository. To get the latest sources from Hg you need to issue the 
+following command:
+
+hg clone http://linuxtv.org/hg/v4l-dvb
+
+* Patches should be built against v4l-dvb master Hg repository.
+
+=== How to get your changes into the mainline tree?
+
+1. Post your patches to the corresponding mailing list for review and 
+testing by other people. For analog or core changes, the mailing list is
+video4linux-list@redhat.com. For DVB changes, the mailing list
+is linux-dvb@linuxtv.org. The latest requires subscription.
+http://linuxtv.org/lists.php
+
+2.  Using [PATCH] at subject will help maintainers to better handle it.
+
+3.  Please include a ChangeLog description in the headers of your patch.
+
+4.  Every patch shall have a Developers Certificate of Origin like
+
+Signed-off-by: Your name <name@yoursite.com>
+
+with name of people envolving on making it.
+
+	This should be a real name and address. The exact meaning of the 
+signed-off-by is postulated at linux source code, at file:
+	Documentation/SubmittingPatches
+
+5.  Fix problems and repeat until everyone is happy ;)
+
+6.  Maintainers will periodically submit changes to mainstream.
+
+Mauro
+Mauro Carvalho Chehab <mchehab .at. linuxtv .dot. org>
